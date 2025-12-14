@@ -1,0 +1,40 @@
+=== SİPARİŞ DETAYI ===
+Sipariş ID: 1
+Müşteri: s a
+Masa No: 5
+Tarih: 14/12/2025 17:09
+Ürünler:
+  - Adana Kebap (120.0 TL)
+  - Urfa Kebap (120.0 TL)
+  - Lahmacun (35.0 TL)
+Toplam Tutar: 275.0 TL
+Durum: Beklemede
+==========================================
+
+
+=== SİPARİŞ DETAYI ===
+Sipariş ID: 2
+Müşteri: ssad ,adsa
+Masa No: 6
+Tarih: 14/12/2025 17:30
+Ürünler:
+  - Pide (60.0 TL)
+Toplam Tutar: 60.0 TL
+Durum: Beklemede
+==========================================
+
+
+=== SİPARİŞ DETAYI ===
+Sipariş ID: 3
+Müşteri: ssss aaaaa
+Masa No: 1
+Tarih: 14/12/2025 17:43
+Ürünler:
+  - Adana Kebap (120.0 TL)
+  - Döner (100.0 TL)
+  - Pide (60.0 TL)
+Toplam Tutar: 280.0 TL
+Durum: Beklemede
+==========================================
+
+
