@@ -3,7 +3,6 @@ package com.restoran.data;
 import com.restoran.exception.FileOperationException;
 import com.restoran.model.*;
 import com.restoran.util.FileHandler;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
@@ -13,6 +12,7 @@ import java.util.StringTokenizer;
  */
 public class DataManager {
     private static final String BUSINESS_FILE = "business.txt";
+    private static final String CUSTOMERS_FILE = "customers.txt";
     private static final String MENU_FILE = "menu.txt";
     private static final String ORDERS_FILE = "orders.txt";
     private static final String RESERVATIONS_FILE = "reservations.txt";
@@ -108,6 +108,7 @@ public class DataManager {
     public static void saveReservation(Reservation reservation) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(reservation.getReservationId()).append("|")
+          .append(reservation.getCustomerId()).append("|")
           .append(reservation.getCustomerName()).append("|")
           .append(reservation.getCustomerPhone()).append("|")
           .append(reservation.getTableNumber()).append("|")
@@ -164,6 +165,89 @@ public class DataManager {
 
     public static void updateWaiterFile(String content) throws FileOperationException {
         FileHandler.overwriteFile(WAITERS_FILE, content);
+    }
+
+    // Customer operations
+    public static void saveCustomer(Customer customer) throws FileOperationException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(customer.getCustomerId()).append("|")
+          .append(customer.getName()).append("|")
+          .append(customer.getSurname()).append("|")
+          .append(customer.getUsername()).append("|")
+          .append(customer.getPassword());
+        FileHandler.writeToFile(CUSTOMERS_FILE, sb.toString());
+    }
+
+    public static Customer loadCustomer(String username, String password) throws FileOperationException {
+        String content = FileHandler.readFromFile(CUSTOMERS_FILE);
+        if (content.isEmpty()) return null;
+
+        StringTokenizer lines = new StringTokenizer(content, "\n");
+        while (lines.hasMoreTokens()) {
+            String line = lines.nextToken().trim();
+            if (line.isEmpty()) continue;
+            
+            StringTokenizer tokens = new StringTokenizer(line, "|");
+            if (tokens.countTokens() >= 5) {
+                int customerId = Integer.parseInt(tokens.nextToken());
+                String name = tokens.nextToken();
+                String surname = tokens.nextToken();
+                String uname = tokens.nextToken();
+                String pwd = tokens.nextToken();
+                
+                if (uname.equals(username) && pwd.equals(password)) {
+                    return new Customer(name, surname, uname, pwd, customerId);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean customerExists(String username) throws FileOperationException {
+        String content = FileHandler.readFromFile(CUSTOMERS_FILE);
+        if (content.isEmpty()) return false;
+
+        StringTokenizer lines = new StringTokenizer(content, "\n");
+        while (lines.hasMoreTokens()) {
+            String line = lines.nextToken().trim();
+            if (line.isEmpty()) continue;
+            
+            StringTokenizer tokens = new StringTokenizer(line, "|");
+            if (tokens.countTokens() >= 5) {
+                tokens.nextToken(); // customerId
+                tokens.nextToken(); // name
+                tokens.nextToken(); // surname
+                String uname = tokens.nextToken();
+                
+                if (uname.equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static int getNextCustomerId() throws FileOperationException {
+        String content = FileHandler.readFromFile(CUSTOMERS_FILE);
+        if (content.isEmpty()) return 1;
+
+        int maxId = 0;
+        StringTokenizer lines = new StringTokenizer(content, "\n");
+        while (lines.hasMoreTokens()) {
+            String line = lines.nextToken().trim();
+            if (line.isEmpty()) continue;
+            
+            StringTokenizer tokens = new StringTokenizer(line, "|");
+            if (tokens.hasMoreTokens()) {
+                try {
+                    int id = Integer.parseInt(tokens.nextToken());
+                    if (id > maxId) maxId = id;
+                } catch (NumberFormatException e) {
+                    // Ignore
+                }
+            }
+        }
+        return maxId + 1;
     }
 }
 

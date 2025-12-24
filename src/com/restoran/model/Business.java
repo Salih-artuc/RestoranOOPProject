@@ -23,16 +23,8 @@ public class Business extends User {
         return businessName;
     }
 
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }
 

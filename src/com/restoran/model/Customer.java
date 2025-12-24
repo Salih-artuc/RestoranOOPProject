@@ -7,13 +7,13 @@ public class Customer extends User {
     private int customerId;
     private static int customerCounter = 1;
 
-    public Customer(String name, String surname) {
-        super(name, surname, "", "");
+    public Customer(String name, String surname, String username, String password) {
+        super(name, surname, username, password);
         this.customerId = customerCounter++;
     }
 
-    public Customer(String name, String surname, int customerId) {
-        super(name, surname, "", "");
+    public Customer(String name, String surname, String username, String password, int customerId) {
+        super(name, surname, username, password);
         this.customerId = customerId;
     }
 
@@ -24,10 +24,6 @@ public class Customer extends User {
 
     public int getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 }
 

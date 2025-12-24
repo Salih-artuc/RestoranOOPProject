@@ -1,3 +1,0 @@
-1|Mehmet|Demir|05551234567|true
-2|Ayşe|Kaya|05559876543|true
-3|Ali|Çelik|05551112233|true

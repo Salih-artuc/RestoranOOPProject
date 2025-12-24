@@ -8,8 +8,7 @@ Yemek|7|Ezogelin Çorbası|25.0|Bulgurlu çorba|true|Çorba
 Yemek|8|Çoban Salata|30.0|Taze sebzeler|true|Salata
 Yemek|9|Mevsim Salatası|35.0|Karışık salata|true|Salata
 Yemek|10|Izgara Köfte|110.0|El yapımı köfte|true|Ana Yemek
-Tatlı|11|Baklava|80.0|Cevizli baklava|true|Şerbetli
-Tatlı|12|Sütlaç|35.0|Sıcak sütlaç|true|Sütlü
-Tatlı|13|Künefe|333.0|Sıcak künefe|true|Şerbetli
-Tatlı|14|Dondurma|45.0|40.0|Vanilyalı dondurma|true
-Tatlı|15|Kazandibi|45.0|40.0|Karamelli muhallebi|true
+Tatlı|11|Sütlaç|35.0|Sıcak sütlaç|true|Sütlü
+Tatlı|12|Künefe|333.0|Sıcak künefe|true|Şerbetli
+Tatlı|13|Dondurma|45.0|40.0|Vanilyalı dondurma|true
+Tatlı|14|Kazandibi|45.0|40.0|Karamelli muhallebi|true

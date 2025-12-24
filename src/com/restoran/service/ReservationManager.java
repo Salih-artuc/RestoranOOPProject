@@ -45,7 +45,7 @@ public class ReservationManager {
         }
     }
 
-    public int createReservation(String customerName, String customerPhone, 
+    public int createReservation(int customerId, String customerName, String customerPhone, 
                                 int tableNumber, LocalDateTime reservationDate) 
             throws InvalidInputException, FileOperationException {
         if (customerName == null || customerName.trim().isEmpty()) {
@@ -55,13 +55,13 @@ public class ReservationManager {
             throw new InvalidInputException("Geçerli bir masa numarası giriniz!");
         }
         
-        Reservation reservation = new Reservation(nextReservationId++, customerName, 
+        Reservation reservation = new Reservation(nextReservationId++, customerId, customerName, 
                                                    customerPhone, tableNumber, reservationDate, 0);
         DataManager.saveReservation(reservation);
         return nextReservationId - 1;
     }
 
-    public void cancelReservation(int reservationId) throws NotFoundException, FileOperationException {
+    public void cancelReservation(int reservationId, int customerId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllReservations();
         if (content == null || content.trim().isEmpty()) {
             throw new NotFoundException("Rezervasyon bulunamadı!");
@@ -80,6 +80,12 @@ public class ReservationManager {
             if (tokens.countTokens() >= 7) {
                 int id = Integer.parseInt(tokens.nextToken());
                 if (id == reservationId) {
+                    // Müşteri ID kontrolü (customerId -1 ise kontrol yapma - işletme için)
+                    int resCustomerId = Integer.parseInt(tokens.nextToken());
+                    if (customerId != -1 && resCustomerId != customerId) {
+                        throw new NotFoundException("Bu rezervasyon size ait değil!");
+                    }
+                    
                     // Rezervasyonu iptal et (isActive = false yap)
                     String customerName = tokens.nextToken(); // customerName
                     String customerPhone = tokens.nextToken(); // customerPhone
@@ -90,6 +96,7 @@ public class ReservationManager {
                     // Yeni satır oluştur
                     StringBuilder newLine = new StringBuilder();
                     newLine.append(id).append("|")
+                           .append(resCustomerId).append("|")
                            .append(customerName).append("|")
                            .append(customerPhone).append("|")
                            .append(tableNumber).append("|")
@@ -139,8 +146,9 @@ public class ReservationManager {
             if (line.isEmpty()) continue;
             
             StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 6) {
+            if (tokens.countTokens() >= 7) {
                 int id = Integer.parseInt(tokens.nextToken());
+                tokens.nextToken(); // customerId (atla)
                 String customerName = tokens.nextToken();
                 String customerPhone = tokens.nextToken();
                 int tableNumber = Integer.parseInt(tokens.nextToken());
@@ -185,8 +193,9 @@ public class ReservationManager {
             if (line.isEmpty()) continue;
             
             StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 6) {
+            if (tokens.countTokens() >= 7) {
                 tokens.nextToken(); // id
+                tokens.nextToken(); // customerId
                 tokens.nextToken(); // customerName
                 tokens.nextToken(); // customerPhone
                 int tNumber = Integer.parseInt(tokens.nextToken());

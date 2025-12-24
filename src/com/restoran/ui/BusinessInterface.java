@@ -1,12 +1,8 @@
 package com.restoran.ui;
 
-import com.restoran.exception.*;
 import com.restoran.model.*;
 import com.restoran.service.*;
 import java.util.Scanner;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.StringTokenizer;
 
 /**
  * İşletme arayüzü
@@ -219,7 +215,14 @@ public class BusinessInterface {
                     double totalAmount = Double.parseDouble(tokens.nextToken());
                     String statusStr = tokens.nextToken();
                     
-                    com.restoran.model.OrderStatus status = com.restoran.model.OrderStatus.valueOf(statusStr);
+                    com.restoran.model.OrderStatus status;
+                    try {
+                        status = com.restoran.model.OrderStatus.valueOf(statusStr);
+                    } catch (IllegalArgumentException e) {
+                        // Status parse edilemezse atla
+                        continue;
+                    }
+                    
                     if (status != com.restoran.model.OrderStatus.SERVIS_EDILDI && status != com.restoran.model.OrderStatus.IPTAL) {
                         hasActive = true;
                         orders.append("Sipariş ID: ").append(id)
@@ -229,7 +232,8 @@ public class BusinessInterface {
                               .append(" | Tutar: ").append(totalAmount).append(" TL")
                               .append(" | Durum: ").append(status.getDescription());
                         
-                        if (tokens.countTokens() >= 1) {
+                        // Tarih bilgisini oku
+                        if (tokens.hasMoreTokens()) {
                             String dateStr = tokens.nextToken(); // orderDate
                             try {
                                 // Nanosaniye kısmını kaldır
@@ -239,10 +243,11 @@ public class BusinessInterface {
                                 java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                 orders.append(" | Tarih: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                             } catch (Exception e) {
-                                // Parse edilemezse atla
+                                // Parse edilemezse tarih gösterme
                             }
                             
-                            if (tokens.countTokens() >= 1) {
+                            // Garson bilgisini oku
+                            if (tokens.hasMoreTokens()) {
                                 try {
                                     int waiterId = Integer.parseInt(tokens.nextToken());
                                     if (waiterId > 0 && tokens.hasMoreTokens()) {
@@ -296,7 +301,14 @@ public class BusinessInterface {
                     double totalAmount = Double.parseDouble(tokens.nextToken());
                     String statusStr = tokens.nextToken();
                     
-                    com.restoran.model.OrderStatus status = com.restoran.model.OrderStatus.valueOf(statusStr);
+                    com.restoran.model.OrderStatus status;
+                    try {
+                        status = com.restoran.model.OrderStatus.valueOf(statusStr);
+                    } catch (IllegalArgumentException e) {
+                        // Status parse edilemezse atla
+                        continue;
+                    }
+                    
                     // Sadece SERVIS_EDILDI veya IPTAL olanları göster
                     if (status == com.restoran.model.OrderStatus.SERVIS_EDILDI || status == com.restoran.model.OrderStatus.IPTAL) {
                         found = true;
@@ -307,7 +319,8 @@ public class BusinessInterface {
                               .append(" | Tutar: ").append(totalAmount).append(" TL")
                               .append(" | Durum: ").append(status.getDescription());
                         
-                        if (tokens.countTokens() >= 1) {
+                        // Tarih bilgisini oku
+                        if (tokens.hasMoreTokens()) {
                             String dateStr = tokens.nextToken();
                             try {
                                 // Nanosaniye kısmını kaldır
@@ -317,7 +330,7 @@ public class BusinessInterface {
                                 java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                 orders.append(" | Tarih: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                             } catch (Exception e) {
-                                orders.append(" | Tarih: ").append(dateStr);
+                                // Parse edilemezse tarih gösterme
                             }
                         }
                         orders.append("\n");
@@ -460,7 +473,7 @@ public class BusinessInterface {
             System.out.print("İptal edilecek rezervasyon ID: ");
             int reservationId = Integer.parseInt(scanner.nextLine().trim());
             
-            reservationManager.cancelReservation(reservationId);
+            reservationManager.cancelReservation(reservationId, -1); // -1 = işletme, kontrol yapma
             System.out.println("Rezervasyon iptal edildi!");
         } catch (NumberFormatException e) {
             System.out.println("Geçerli bir ID giriniz!");

@@ -84,7 +84,7 @@ public class RestaurantApp {
             System.out.print("Şifre: ");
             String password = scanner.nextLine().trim();
 
-            Business business = loginService.login(username, password);
+            Business business = loginService.loginBusiness(username, password);
             
             if (business != null) {
                 BusinessInterface businessInterface = new BusinessInterface(scanner, business);

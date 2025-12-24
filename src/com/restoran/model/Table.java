@@ -21,32 +21,16 @@ public class Table {
         return tableNumber;
     }
 
-    public void setTableNumber(int tableNumber) {
-        this.tableNumber = tableNumber;
-    }
-
     public int getCapacity() {
         return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     public boolean isOccupied() {
         return isOccupied;
     }
 
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
-    }
-
     public boolean isReserved() {
         return isReserved;
-    }
-
-    public void setReserved(boolean reserved) {
-        isReserved = reserved;
     }
 }
 

@@ -142,4 +142,3 @@ public class WaiterManager {
         DataManager.updateWaiterFile(newContent.toString());
     }
 }
-

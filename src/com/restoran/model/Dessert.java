@@ -19,9 +19,5 @@ public class Dessert extends MenuItem {
     public String getDessertType() {
         return dessertType;
     }
-
-    public void setDessertType(String dessertType) {
-        this.dessertType = dessertType;
-    }
 }
 

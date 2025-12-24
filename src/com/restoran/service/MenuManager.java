@@ -85,15 +85,36 @@ public class MenuManager implements IMenuService {
             String line = lines.nextToken().trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 2) {
-                String type = tokens.nextToken();
+            // Satırı | karakterine göre böl
+            String[] parts = line.split("\\|", -1);
+            
+            if (parts.length >= 6) {
                 try {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    if (id != itemId) {
-                        newContent.append(line).append("\n");
-                    } else {
+                    int id = Integer.parseInt(parts[1].trim());
+                    
+                    if (id == itemId) {
+                        // Silinecek ürünü atla
                         found = true;
+                    } else if (id > itemId) {
+                        // Silinen ürünün ID'sinden sonraki ürünlerin ID'sini 1 azalt
+                        int newId = id - 1;
+                        StringBuilder newLine = new StringBuilder();
+                        newLine.append(parts[0]).append("|") // type
+                               .append(newId).append("|") // yeni ID
+                               .append(parts[2]).append("|") // name
+                               .append(parts[3]).append("|") // price
+                               .append(parts[4]).append("|") // description
+                               .append(parts[5]); // isActive
+                        
+                        // Son token category veya dessertType olabilir (varsa)
+                        if (parts.length >= 7 && !parts[6].trim().isEmpty()) {
+                            newLine.append("|").append(parts[6]);
+                        }
+                        
+                        newContent.append(newLine.toString()).append("\n");
+                    } else {
+                        // Silinen ürünün ID'sinden önceki ürünler, olduğu gibi ekle
+                        newContent.append(line).append("\n");
                     }
                 } catch (NumberFormatException e) {
                     newContent.append(line).append("\n");
@@ -108,6 +129,11 @@ public class MenuManager implements IMenuService {
         }
         
         DataManager.updateMenuFile(newContent.toString());
+        
+        // nextItemId'yi güncelle (silinen ürün varsa 1 azalt)
+        if (nextItemId > 1) {
+            nextItemId--;
+        }
     }
 
     public void updatePrice(int itemId, double newPrice) 
