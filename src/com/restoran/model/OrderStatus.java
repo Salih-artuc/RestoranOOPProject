@@ -4,11 +4,11 @@ package com.restoran.model;
  * Sipariş durumu enum
  */
 public enum OrderStatus {
-    BEKLEMEDE("Beklemede"),
-    HAZIRLANIYOR("Hazırlanıyor"),
-    HAZIR("Hazır"),
-    SERVIS_EDILDI("Servis Edildi"),
-    IPTAL("İptal");
+    PENDING("Pending"),
+    PREPARING("Preparing"),
+    READY("Ready"),
+    SERVED("Served"),
+    CANCELLED("Cancelled");
 
     private final String description;
 

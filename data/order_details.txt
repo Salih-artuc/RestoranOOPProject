@@ -8,7 +8,7 @@ Tarih: 24/12/2025 16:42
   - Döner (100.0 TL)
   - Ezogelin Çorbası (25.0 TL)
 Toplam Tutar: 245.0 TL
-Durum: Beklemede
+Durum: Pending
 ==========================================
 
 

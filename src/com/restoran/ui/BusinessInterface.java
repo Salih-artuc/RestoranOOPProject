@@ -223,7 +223,7 @@ public class BusinessInterface {
                         continue;
                     }
                     
-                    if (status != com.restoran.model.OrderStatus.SERVIS_EDILDI && status != com.restoran.model.OrderStatus.IPTAL) {
+                    if (status != com.restoran.model.OrderStatus.SERVED && status != com.restoran.model.OrderStatus.CANCELLED) {
                         hasActive = true;
                         orders.append("Sipariş ID: ").append(id)
                               .append(" | Müşteri: ").append(customerName)
@@ -309,8 +309,8 @@ public class BusinessInterface {
                         continue;
                     }
                     
-                    // Sadece SERVIS_EDILDI veya IPTAL olanları göster
-                    if (status == com.restoran.model.OrderStatus.SERVIS_EDILDI || status == com.restoran.model.OrderStatus.IPTAL) {
+                    // Sadece SERVED veya CANCELLED olanları göster
+                    if (status == com.restoran.model.OrderStatus.SERVED || status == com.restoran.model.OrderStatus.CANCELLED) {
                         found = true;
                         orders.append("Sipariş ID: ").append(id)
                               .append(" | Müşteri: ").append(customerName)
@@ -375,19 +375,19 @@ public class BusinessInterface {
             com.restoran.model.OrderStatus newStatus;
             switch (statusChoice) {
                 case "1":
-                    newStatus = com.restoran.model.OrderStatus.BEKLEMEDE;
+                    newStatus = com.restoran.model.OrderStatus.PENDING;
                     break;
                 case "2":
-                    newStatus = com.restoran.model.OrderStatus.HAZIRLANIYOR;
+                    newStatus = com.restoran.model.OrderStatus.PREPARING;
                     break;
                 case "3":
-                    newStatus = com.restoran.model.OrderStatus.HAZIR;
+                    newStatus = com.restoran.model.OrderStatus.READY;
                     break;
                 case "4":
-                    newStatus = com.restoran.model.OrderStatus.SERVIS_EDILDI;
+                    newStatus = com.restoran.model.OrderStatus.SERVED;
                     break;
                 case "5":
-                    newStatus = com.restoran.model.OrderStatus.IPTAL;
+                    newStatus = com.restoran.model.OrderStatus.CANCELLED;
                     break;
                 default:
                     System.out.println("Geçersiz seçim!");
@@ -400,9 +400,9 @@ public class BusinessInterface {
             // Sipariş durumunu güncelle
             orderManager.updateOrderStatus(orderId, newStatus);
             
-            // Eğer sipariş SERVIS_EDILDI veya IPTAL ise masayı boşalt
-            if (newStatus == com.restoran.model.OrderStatus.SERVIS_EDILDI || 
-                newStatus == com.restoran.model.OrderStatus.IPTAL) {
+            // Eğer sipariş SERVED veya CANCELLED ise masayı boşalt
+            if (newStatus == com.restoran.model.OrderStatus.SERVED || 
+                newStatus == com.restoran.model.OrderStatus.CANCELLED) {
                 if (tableNumber > 0) {
                     tableManager.updateTableStatus(tableNumber, false, false);
                     System.out.println("Masa " + tableNumber + " boşaltıldı!");

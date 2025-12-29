@@ -25,7 +25,7 @@ public class Order {
         this.tableNumber = tableNumber;
         this.items = items;
         this.totalAmount = totalAmount;
-        this.status = OrderStatus.BEKLEMEDE;
+        this.status = OrderStatus.PENDING;
         this.orderDate = LocalDateTime.now();
         this.waiterId = 0;
         this.waiterName = "";

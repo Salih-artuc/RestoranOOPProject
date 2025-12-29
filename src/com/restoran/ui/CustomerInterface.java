@@ -486,7 +486,7 @@ public class CustomerInterface {
                             continue;
                         }
                         
-                        if (status != OrderStatus.SERVIS_EDILDI && status != OrderStatus.IPTAL) {
+                        if (status != OrderStatus.SERVED && status != OrderStatus.CANCELLED) {
                             found = true;
                             orders.append("Sipariş ID: ").append(id)
                                   .append(" | Masa: ").append(tableNumber)
@@ -562,8 +562,8 @@ public class CustomerInterface {
                             continue;
                         }
                         
-                        // Sadece SERVIS_EDILDI veya IPTAL olanları göster
-                        if (status == OrderStatus.SERVIS_EDILDI || status == OrderStatus.IPTAL) {
+                        // Sadece SERVED veya CANCELLED olanları göster
+                        if (status == OrderStatus.SERVED || status == OrderStatus.CANCELLED) {
                             found = true;
                             orders.append("Sipariş ID: ").append(id)
                                   .append(" | Masa: ").append(tableNumber)
