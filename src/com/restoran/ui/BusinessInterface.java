@@ -37,7 +37,7 @@ public class BusinessInterface {
     private void showMenu() {
         while (true) {
             System.out.println("\n=== İŞLETME MENÜSÜ ===");
-            System.out.println("1. Menü Yönetimi");
+            System.out.println("1. Menü");
             System.out.println("2. Ürün Ekleme");
             System.out.println("3. Ürün Silme");
             System.out.println("4. Fiyat Değiştirme");
