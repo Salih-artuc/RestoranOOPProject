@@ -12,17 +12,17 @@ import com.restoran.data.DataManager;
 public class LoginService {
     public Business loginBusiness(String username, String password) throws InvalidInputException, FileOperationException {
         if (username == null || username.trim().isEmpty()) {
-            throw new InvalidInputException("Kullanıcı adı boş olamaz!");
+            throw new InvalidInputException("Username cannot be empty!");
         }
         
         if (password == null || password.trim().isEmpty()) {
-            throw new InvalidInputException("Şifre boş olamaz!");
+            throw new InvalidInputException("Password cannot be empty!");
         }
 
         Business business = DataManager.loadBusiness(username, password);
         
         if (business == null) {
-            throw new InvalidInputException("Kullanıcı adı veya şifre hatalı!");
+            throw new InvalidInputException("Wrong username or password!");
         }
         
         return business;
@@ -30,17 +30,17 @@ public class LoginService {
 
     public Customer loginCustomer(String username, String password) throws InvalidInputException, FileOperationException {
         if (username == null || username.trim().isEmpty()) {
-            throw new InvalidInputException("Kullanıcı adı boş olamaz!");
+            throw new InvalidInputException("Username cannot be empty");
         }
         
         if (password == null || password.trim().isEmpty()) {
-            throw new InvalidInputException("Şifre boş olamaz!");
+            throw new InvalidInputException("Password cannnot be empty");
         }
 
         Customer customer = DataManager.loadCustomer(username, password);
         
         if (customer == null) {
-            throw new InvalidInputException("Kullanıcı adı veya şifre hatalı!");
+            throw new InvalidInputException("Wrong username or password!");
         }
         
         return customer;
@@ -49,24 +49,24 @@ public class LoginService {
     public Customer registerCustomer(String name, String surname, String username, String password) 
             throws InvalidInputException, FileOperationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidInputException("Ad boş olamaz!");
+            throw new InvalidInputException("Name cannot be empty!");
         }
         
         if (surname == null || surname.trim().isEmpty()) {
-            throw new InvalidInputException("Soyad boş olamaz!");
+            throw new InvalidInputException("Surname cannot be empty!");
         }
         
         if (username == null || username.trim().isEmpty()) {
-            throw new InvalidInputException("Kullanıcı adı boş olamaz!");
+            throw new InvalidInputException("Username cannot be empty!");
         }
         
         if (password == null || password.trim().isEmpty()) {
-            throw new InvalidInputException("Şifre boş olamaz!");
+            throw new InvalidInputException("Password cannot be empty!");
         }
 
         // Kullanıcı adı kontrolü
         if (DataManager.customerExists(username)) {
-            throw new InvalidInputException("Bu kullanıcı adı zaten kullanılıyor!");
+            throw new InvalidInputException("This username already exists!");
         }
 
         // Yeni müşteri oluştur
