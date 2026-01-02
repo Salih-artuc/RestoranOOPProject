@@ -13,7 +13,7 @@ public class Food extends MenuItem {
 
     @Override
     public String getItemType() {
-        return "Food";
+        return "Yemek";
     }
 
     public String getCategory() {
