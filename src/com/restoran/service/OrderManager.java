@@ -54,7 +54,7 @@ public class OrderManager implements IOrderService {
             throws NotFoundException, FileOperationException {
         String content = DataManager.getAllOrders();
         if (content.isEmpty()) {
-            throw new NotFoundException("Sipariş bulunamadı!");
+            throw new NotFoundException("Order not found!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -96,7 +96,7 @@ public class OrderManager implements IOrderService {
         }
         
         if (!found) {
-            throw new NotFoundException("Sipariş bulunamadı!");
+            throw new NotFoundException("Order not found!");
         }
         
         DataManager.updateOrderFile(newContent.toString());
@@ -106,7 +106,7 @@ public class OrderManager implements IOrderService {
             throws NotFoundException, FileOperationException {
         String content = DataManager.getAllOrders();
         if (content.isEmpty()) {
-            throw new NotFoundException("Sipariş bulunamadı!");
+            throw new NotFoundException("Order not found!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -150,7 +150,7 @@ public class OrderManager implements IOrderService {
         }
         
         if (!found) {
-            throw new NotFoundException("Sipariş bulunamadı!");
+            throw new NotFoundException("Order not found!");
         }
         
         DataManager.updateOrderFile(newContent.toString());
@@ -159,7 +159,7 @@ public class OrderManager implements IOrderService {
     public int getOrderTableNumber(int orderId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllOrders();
         if (content.isEmpty()) {
-            throw new NotFoundException("Sipariş bulunamadı!");
+            throw new NotFoundException("Order not found!");
         }
 
         StringTokenizer lines = new StringTokenizer(content, "\n");
@@ -183,7 +183,7 @@ public class OrderManager implements IOrderService {
             }
         }
         
-        throw new NotFoundException("Sipariş bulunamadı!");
+        throw new NotFoundException("Order not found!");
     }
 }
 
