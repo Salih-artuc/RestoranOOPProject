@@ -10,7 +10,7 @@ public class Order {
     private int customerId;
     private String customerName;
     private int tableNumber;
-    private String items; // Sipariş edilen ürünler (String olarak saklanacak)
+    private String items; // Ordered Items (Will be hidden as String)
     private double totalAmount;
     private OrderStatus status;
     private LocalDateTime orderDate;
