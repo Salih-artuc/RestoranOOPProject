@@ -7,7 +7,7 @@ import com.restoran.data.DataManager;
 import java.util.StringTokenizer;
 
 /**
- * Masa yönetimi servisi
+ * Table management service
  */
 public class TableManager {
     public void addTable(int tableNumber, int capacity) throws FileOperationException {
@@ -22,7 +22,7 @@ public class TableManager {
         }
 
         StringBuilder tables = new StringBuilder();
-        tables.append("=== MASALAR ===\n");
+        tables.append("=== TABLES ===\n");
         
         StringTokenizer lines = new StringTokenizer(content, "\n");
         while (lines.hasMoreTokens()) {
@@ -36,16 +36,16 @@ public class TableManager {
                 boolean isOccupied = Boolean.parseBoolean(tokens.nextToken());
                 boolean isReserved = Boolean.parseBoolean(tokens.nextToken());
                 
-                tables.append("Masa No: ").append(tableNumber)
-                      .append(" | Kapasite: ").append(capacity)
-                      .append(" | Durum: ");
+                tables.append("Table No: ").append(tableNumber)
+                      .append(" | Capacity: ").append(capacity)
+                      .append(" | Status: ");
                 
                 if (isOccupied) {
-                    tables.append("Dolu");
+                    tables.append("Full");
                 } else if (isReserved) {
-                    tables.append("Rezerve");
+                    tables.append("Reserved");
                 } else {
-                    tables.append("Boş");
+                    tables.append("Empty");
                 }
                 tables.append("\n");
             }
@@ -58,7 +58,7 @@ public class TableManager {
             throws NotFoundException, FileOperationException {
         String content = DataManager.getAllTables();
         if (content.isEmpty()) {
-            throw new NotFoundException("Masa bulunamadı!");
+            throw new NotFoundException("Table not found!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -88,7 +88,7 @@ public class TableManager {
         }
         
         if (!found) {
-            throw new NotFoundException("Masa bulunamadı!");
+            throw new NotFoundException("Table not found!");
         }
         
         DataManager.updateTableFile(newContent.toString());
