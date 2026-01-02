@@ -7,7 +7,7 @@ import com.restoran.data.DataManager;
 import java.util.StringTokenizer;
 
 /**
- * Garson yönetimi servisi
+ * Waiter management service
  */
 public class WaiterManager {
     private int nextWaiterId = 1;
@@ -38,7 +38,7 @@ public class WaiterManager {
                 nextWaiterId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // İlk kullanım
+            // First usage
         }
     }
 
@@ -54,7 +54,7 @@ public class WaiterManager {
         }
 
         StringBuilder waiters = new StringBuilder();
-        waiters.append("=== GARSONLAR ===\n");
+        waiters.append("=== WAITERS ===\n");
         
         StringTokenizer lines = new StringTokenizer(content, "\n");
         while (lines.hasMoreTokens()) {
@@ -70,9 +70,9 @@ public class WaiterManager {
                 boolean isAvailable = Boolean.parseBoolean(tokens.nextToken());
                 
                 waiters.append("ID: ").append(waiterId)
-                       .append(" | Ad Soyad: ").append(name).append(" ").append(surname)
-                       .append(" | Telefon: ").append(phoneNumber)
-                       .append(" | Durum: ").append(isAvailable ? "Müsait" : "Meşgul")
+                       .append(" | Name Surname: ").append(name).append(" ").append(surname)
+                       .append(" | Phone: ").append(phoneNumber)
+                       .append(" | Status: ").append(isAvailable ? "Available" : "Busy")
                        .append("\n");
             }
         }
@@ -83,7 +83,7 @@ public class WaiterManager {
     public String getWaiterInfo(int waiterId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllWaiters();
         if (content.isEmpty()) {
-            throw new NotFoundException("Garson bulunamadı!");
+            throw new NotFoundException("Waiter not found!");
         }
 
         StringTokenizer lines = new StringTokenizer(content, "\n");
@@ -105,13 +105,13 @@ public class WaiterManager {
             }
         }
         
-        throw new NotFoundException("Garson bulunamadı!");
+        throw new NotFoundException("Waiter not found!");
     }
 
     public void removeWaiter(int waiterId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllWaiters();
         if (content.isEmpty()) {
-            throw new NotFoundException("Garson bulunamadı!");
+            throw new NotFoundException("Waiter not found!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -136,7 +136,7 @@ public class WaiterManager {
         }
         
         if (!found) {
-            throw new NotFoundException("Garson bulunamadı!");
+            throw new NotFoundException("Waiter not found!");
         }
         
         DataManager.updateWaiterFile(newContent.toString());
