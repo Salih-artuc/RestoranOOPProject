@@ -19,7 +19,7 @@ public class Customer extends User {
 
     @Override
     public String getUserType() {
-        return "Müşteri";
+        return "Customer";
     }
 
     public int getCustomerId() {
