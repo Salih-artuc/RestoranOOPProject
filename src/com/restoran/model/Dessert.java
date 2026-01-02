@@ -13,7 +13,7 @@ public class Dessert extends MenuItem {
 
     @Override
     public String getItemType() {
-        return "Dessert";
+        return "Tatlı";
     }
 
     public String getDessertType() {
