@@ -48,10 +48,10 @@ public class MenuManager implements IMenuService {
     public void addFood(String name, double price, String description, String category) 
             throws InvalidInputException, FileOperationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidInputException("Ürün adı boş olamaz!");
+            throw new InvalidInputException("Product name cannot be empty!");
         }
         if (price <= 0) {
-            throw new InvalidInputException("Fiyat 0'dan büyük olmalıdır!");
+            throw new InvalidInputException("Price must be greater than 0!");
         }
         
         Food food = new Food(nextItemId++, name, price, description, category);
@@ -61,10 +61,10 @@ public class MenuManager implements IMenuService {
     public void addDessert(String name, double price, String description, String dessertType) 
             throws InvalidInputException, FileOperationException {
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidInputException("Ürün adı boş olamaz!");
+            throw new InvalidInputException("Product name cannot be empty!");
         }
         if (price <= 0) {
-            throw new InvalidInputException("Fiyat 0'dan büyük olmalıdır!");
+            throw new InvalidInputException("Price must be greater than 0!");
         }
         
         Dessert dessert = new Dessert(nextItemId++, name, price, description, dessertType);
@@ -74,7 +74,7 @@ public class MenuManager implements IMenuService {
     public void deleteItem(int itemId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllMenuItems();
         if (content.isEmpty()) {
-            throw new NotFoundException("Menü boş!");
+            throw new NotFoundException("Menu is empty!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -125,7 +125,7 @@ public class MenuManager implements IMenuService {
         }
         
         if (!found) {
-            throw new NotFoundException("Ürün bulunamadı!");
+            throw new NotFoundException("Couldn't find the product!");
         }
         
         DataManager.updateMenuFile(newContent.toString());
@@ -139,12 +139,12 @@ public class MenuManager implements IMenuService {
     public void updatePrice(int itemId, double newPrice) 
             throws NotFoundException, InvalidInputException, FileOperationException {
         if (newPrice <= 0) {
-            throw new InvalidInputException("Fiyat 0'dan büyük olmalıdır!");
+            throw new InvalidInputException("Price must be greater than 0!");
         }
         
         String content = DataManager.getAllMenuItems();
         if (content.isEmpty()) {
-            throw new NotFoundException("Menü boş!");
+            throw new NotFoundException("Menu is empty!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -192,7 +192,7 @@ public class MenuManager implements IMenuService {
         }
         
         if (!found) {
-            throw new NotFoundException("Ürün bulunamadı!");
+            throw new NotFoundException("Couldn't find the product!");
         }
         
         DataManager.updateMenuFile(newContent.toString());
