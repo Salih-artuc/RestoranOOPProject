@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
 /**
- * Rezervasyon yönetimi servisi
+ * Reservation management service
  */
 public class ReservationManager {
     private int nextReservationId = 1;
@@ -41,7 +41,7 @@ public class ReservationManager {
                 nextReservationId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // İlk kullanım
+            // First usage
         }
     }
 
@@ -80,20 +80,20 @@ public class ReservationManager {
             if (tokens.countTokens() >= 7) {
                 int id = Integer.parseInt(tokens.nextToken());
                 if (id == reservationId) {
-                    // Müşteri ID kontrolü (customerId -1 ise kontrol yapma - işletme için)
+                    // Customer Id check (customerId -1 ise kontrol yapma - işletme için)
                     int resCustomerId = Integer.parseInt(tokens.nextToken());
                     if (customerId != -1 && resCustomerId != customerId) {
                         throw new NotFoundException("This reservation doesn't belong to you!");
                     }
                     
-                    // Rezervasyonu iptal et (isActive = false yap)
+                    // Cancel reservation (isActive = false yap)
                     String customerName = tokens.nextToken(); // customerName
                     String customerPhone = tokens.nextToken(); // customerPhone
                     tableNumber = Integer.parseInt(tokens.nextToken()); // tableNumber
                     String reservationDate = tokens.nextToken(); // reservationDate
                     String numberOfGuests = tokens.nextToken(); // numberOfGuests
                     
-                    // Yeni satır oluştur
+                    // Create new line
                     StringBuilder newLine = new StringBuilder();
                     newLine.append(id).append("|")
                            .append(resCustomerId).append("|")
@@ -120,13 +120,13 @@ public class ReservationManager {
         
         DataManager.updateReservationFile(newContent.toString());
         
-        // Masa durumunu güncelle (rezerve durumunu kaldır)
+        // Update table status (remove reserve status)
         if (tableNumber > 0) {
             try {
                 com.restoran.service.TableManager tableManager = new com.restoran.service.TableManager();
                 tableManager.updateTableStatus(tableNumber, false, false);
             } catch (Exception e) {
-                // Masa güncelleme hatası, devam et
+                // Table update error, continue
             }
         }
     }
@@ -206,14 +206,14 @@ public class ReservationManager {
                 if (isActive && tNumber == tableNumber) {
                     try {
                         LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                        // Aynı gün ve aynı saat kontrolü
+                        // Same day and same time control
                         if (date.toLocalDate().equals(reservationDate.toLocalDate()) &&
                             date.getHour() == reservationDate.getHour() &&
                             date.getMinute() == reservationDate.getMinute()) {
                             return true;
                         }
                     } catch (Exception e) {
-                        // Parse hatası, devam et
+                        // Parse error, continue
                     }
                 }
             }
