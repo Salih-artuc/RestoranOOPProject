@@ -49,10 +49,10 @@ public class ReservationManager {
                                 int tableNumber, LocalDateTime reservationDate) 
             throws InvalidInputException, FileOperationException {
         if (customerName == null || customerName.trim().isEmpty()) {
-            throw new InvalidInputException("Müşteri adı boş olamaz!");
+            throw new InvalidInputException("Customer name cannot be empty!");
         }
         if (tableNumber <= 0) {
-            throw new InvalidInputException("Geçerli bir masa numarası giriniz!");
+            throw new InvalidInputException("Please enter a valid table number!");
         }
         
         Reservation reservation = new Reservation(nextReservationId++, customerId, customerName, 
@@ -64,7 +64,7 @@ public class ReservationManager {
     public void cancelReservation(int reservationId, int customerId) throws NotFoundException, FileOperationException {
         String content = DataManager.getAllReservations();
         if (content == null || content.trim().isEmpty()) {
-            throw new NotFoundException("Rezervasyon bulunamadı!");
+            throw new NotFoundException("Reservation not found!");
         }
 
         StringBuilder newContent = new StringBuilder();
@@ -83,7 +83,7 @@ public class ReservationManager {
                     // Müşteri ID kontrolü (customerId -1 ise kontrol yapma - işletme için)
                     int resCustomerId = Integer.parseInt(tokens.nextToken());
                     if (customerId != -1 && resCustomerId != customerId) {
-                        throw new NotFoundException("Bu rezervasyon size ait değil!");
+                        throw new NotFoundException("This reservation doesn't belong to you!");
                     }
                     
                     // Rezervasyonu iptal et (isActive = false yap)
@@ -115,7 +115,7 @@ public class ReservationManager {
         }
         
         if (!found) {
-            throw new NotFoundException("Rezervasyon bulunamadı!");
+            throw new NotFoundException("Reservation not found!");
         }
         
         DataManager.updateReservationFile(newContent.toString());
@@ -138,7 +138,7 @@ public class ReservationManager {
         }
 
         StringBuilder reservations = new StringBuilder();
-        reservations.append("=== REZERVASYONLAR ===\n");
+        reservations.append("=== RESERVATIONS ===\n");
         
         StringTokenizer lines = new StringTokenizer(content, "\n");
         while (lines.hasMoreTokens()) {
@@ -160,17 +160,17 @@ public class ReservationManager {
                     try {
                         LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                         reservations.append("ID: ").append(id)
-                                  .append(" | Müşteri: ").append(customerName)
-                                  .append(" | Telefon: ").append(customerPhone)
-                                  .append(" | Masa: ").append(tableNumber)
-                                  .append(" | Tarih: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
-                                  .append(" | Kişi Sayısı: ").append(numberOfGuests)
+                                  .append(" | Customer: ").append(customerName)
+                                  .append(" | Phone: ").append(customerPhone)
+                                  .append(" | Table: ").append(tableNumber)
+                                  .append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                                  .append(" | Number of People: ").append(numberOfGuests)
                                   .append("\n");
                     } catch (Exception e) {
                         reservations.append("ID: ").append(id)
-                                  .append(" | Müşteri: ").append(customerName)
-                                  .append(" | Masa: ").append(tableNumber)
-                                  .append(" | Tarih: ").append(dateStr)
+                                  .append(" | Customer: ").append(customerName)
+                                  .append(" | Table: ").append(tableNumber)
+                                  .append(" | Date: ").append(dateStr)
                                   .append("\n");
                     }
                 }
