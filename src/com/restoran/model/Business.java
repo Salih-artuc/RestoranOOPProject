@@ -16,7 +16,7 @@ public class Business extends User {
 
     @Override
     public String getUserType() {
-        return "İşletme";
+        return "Business";
     }
 
     public String getBusinessName() {
