@@ -18,7 +18,7 @@ public class TableManager {
     public String getAllTables() throws FileOperationException {
         String content = DataManager.getAllTables();
         if (content.isEmpty()) {
-            return "Masa bilgisi yok!";
+            return "No Table Information!";
         }
 
         StringBuilder tables = new StringBuilder();
