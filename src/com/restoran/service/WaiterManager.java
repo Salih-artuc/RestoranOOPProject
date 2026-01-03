@@ -50,7 +50,7 @@ public class WaiterManager {
     public String getAllWaiters() throws FileOperationException {
         String content = DataManager.getAllWaiters();
         if (content.isEmpty()) {
-            return "Garson bilgisi yok!";
+            return "No Waiter Information!";
         }
 
         StringBuilder waiters = new StringBuilder();
