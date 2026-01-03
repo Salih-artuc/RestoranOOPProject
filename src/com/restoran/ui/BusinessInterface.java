@@ -483,7 +483,7 @@ public class BusinessInterface {
     private void addTable() {
         try {
             System.out.println("\n=== ADD TABLE ===");
-            System.out.print("Kapasite: ");
+            System.out.print("Capacity: ");
             int capacity = Integer.parseInt(scanner.nextLine().trim());
             
             int nextTableNumber = tableManager.getNextTableNumber();
