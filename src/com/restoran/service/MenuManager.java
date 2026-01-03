@@ -202,9 +202,9 @@ public class MenuManager implements IMenuService {
                 
                 if (isActive) {
                     menu.append("ID: ").append(id)
-                        .append(" | Tip: ").append(type)
-                        .append(" | Ad: ").append(name)
-                        .append(" | Fiyat: ").append(price).append(" TL")
+                        .append(" | Type: ").append(type)
+                        .append(" | Name: ").append(name)
+                        .append(" | Price: ").append(price).append(" TL")
                         .append(" | Description: ").append(description);
                     
                     if (fields.length >= 7) {
