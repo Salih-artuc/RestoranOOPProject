@@ -107,7 +107,7 @@ public class BusinessInterface {
                         System.out.println("Invalid choice!");
                 }
             } catch (Exception e) {
-                System.out.println("Hata: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -116,7 +116,7 @@ public class BusinessInterface {
         try {
             System.out.println("\n" + menuManager.displayMenu());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -151,7 +151,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid price!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -166,7 +166,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -183,7 +183,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -196,7 +196,7 @@ public class BusinessInterface {
             }
 
             StringBuilder orders = new StringBuilder();
-            orders.append("=== AKTİF SİPARİŞLER ===\n");
+            orders.append("=== ACTIVE ORDERS ===\n");
             
             String[] lines = content.split("\n");
             boolean hasActive = false;
@@ -269,7 +269,7 @@ public class BusinessInterface {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -282,7 +282,7 @@ public class BusinessInterface {
             }
 
             StringBuilder orders = new StringBuilder();
-            orders.append("=== GEÇMİŞ SİPARİŞLER ===\n");
+            orders.append("=== PAST ORDERS ===\n");
             
             String[] lines = content.split("\n");
             boolean found = false;
@@ -344,7 +344,7 @@ public class BusinessInterface {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -352,7 +352,7 @@ public class BusinessInterface {
         try {
             System.out.println("\n" + tableManager.getAllTables());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -413,7 +413,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -427,7 +427,7 @@ public class BusinessInterface {
 
     private void assignWaiter() {
         try {
-            System.out.println("\n=== GARSON ATAMA ===");
+            System.out.println("\n=== ASSIGN WAITER ===");
             showActiveOrders();
             System.out.print("Order ID: ");
             int orderId = Integer.parseInt(scanner.nextLine().trim());
@@ -451,7 +451,7 @@ public class BusinessInterface {
 
     private void addWaiter() {
         try {
-            System.out.println("\n=== GARSON EKLEME ===");
+            System.out.println("\n=== ADD WAITER ===");
             System.out.print("Ad: ");
             String name = scanner.nextLine().trim();
             System.out.print("Soyad: ");
@@ -462,7 +462,7 @@ public class BusinessInterface {
             waiterManager.addWaiter(name, surname, phone);
             System.out.println("Waiter added!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -478,7 +478,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -494,13 +494,13 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     private void addTable() {
         try {
-            System.out.println("\n=== MASA EKLEME ===");
+            System.out.println("\n=== ADD TABLE ===");
             System.out.print("Kapasite: ");
             int capacity = Integer.parseInt(scanner.nextLine().trim());
             
@@ -511,7 +511,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
