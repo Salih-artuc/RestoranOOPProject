@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * İşletme sınıfı
- */
 public class Business extends User {
     private String businessName;
     private String address;
@@ -16,7 +13,7 @@ public class Business extends User {
 
     @Override
     public String getUserType() {
-        return "İşletme";
+        return "Business";
     }
 
     public String getBusinessName() {

@@ -5,14 +5,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * Dosya işlemleri için utility sınıfı
- */
 public class FileHandler {
     private static final String DATA_DIR = "data";
 
     static {
-        // Data klasörünü oluştur
         try {
             Files.createDirectories(Paths.get(DATA_DIR));
         } catch (IOException e) {
@@ -26,7 +22,7 @@ public class FileHandler {
             writer.write(content);
             writer.newLine();
         } catch (IOException e) {
-            throw new FileOperationException("Dosyaya yazma hatası: " + e.getMessage());
+            throw new FileOperationException("File write error: " + e.getMessage());
         }
     }
 
@@ -35,7 +31,7 @@ public class FileHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             writer.write(content);
         } catch (IOException e) {
-            throw new FileOperationException("Dosyaya yazma hatası: " + e.getMessage());
+            throw new FileOperationException("File write error: " + e.getMessage());
         }
     }
 
@@ -49,9 +45,9 @@ public class FileHandler {
                 content.append(line).append("\n");
             }
         } catch (FileNotFoundException e) {
-            return ""; // Dosya yoksa boş string döndür
+            return "";
         } catch (IOException e) {
-            throw new FileOperationException("Dosyadan okuma hatası: " + e.getMessage());
+            throw new FileOperationException("File read error: " + e.getMessage());
         }
         
         return content.toString();

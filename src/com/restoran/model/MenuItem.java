@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Menü öğesi abstract sınıfı
- */
 public abstract class MenuItem {
     protected int itemId;
     protected String name;
@@ -18,10 +15,7 @@ public abstract class MenuItem {
         this.isActive = true;
     }
 
-    // Abstract method
     public abstract String getItemType();
-
-    // Encapsulation
     public int getItemId() {
         return itemId;
     }

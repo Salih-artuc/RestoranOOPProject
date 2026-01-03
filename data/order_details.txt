@@ -1,14 +1,14 @@
-=== SİPARİŞ DETAYI ===
-Sipariş ID: 1
-Müşteri: salih artuç
-Masa No: 1
-Tarih: 24/12/2025 16:42
-Ürünler:
-  - Adana Kebap (120.0 TL)
-  - Döner (100.0 TL)
-  - Ezogelin Çorbası (25.0 TL)
-Toplam Tutar: 245.0 TL
-Durum: Pending
+=== ORDER DETAILS ===
+Order ID: 1
+Customer: salih artuç
+Table No: 1
+Date: 24/12/2025 16:42
+Items:
+  - Adana Kebab (120.0 TL)
+  - Doner (100.0 TL)
+  - Ezogelin Soup (25.0 TL)
+Total Amount: 245.0 TL
+Status: Pending
 ==========================================
 
 

@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Customer interface
- */
 public class CustomerInterface {
     private Scanner scanner;
     private Customer customer;
@@ -156,15 +153,12 @@ public class CustomerInterface {
 
     private void placeOrder() {
         try {
-            // Show menu
             System.out.println("\n=== MENU ===");
             System.out.println(menuManager.displayMenu());
             
-            // Show tables
             System.out.println("\n=== TABLES ===");
             System.out.println(tableManager.getAllTables());
             
-            // Food selection
             System.out.print("\nEnter product IDs separated by commas to place order (e.g., 1,2,3): ");
             String input = scanner.nextLine().trim();
             
@@ -173,31 +167,25 @@ public class CustomerInterface {
                 return;
             }
             
-            // Table selection
             System.out.print("Table number: ");
             int tableNumber = Integer.parseInt(scanner.nextLine().trim());
             
-            // Check if table is available
             if (!tableManager.isTableAvailable(tableNumber)) {
                 System.out.println("This table is not available! Please select another table.");
                 return;
             }
             
-            // Get menu content
             String menuContent = DataManager.getAllMenuItems();
             StringBuilder items = new StringBuilder();
             StringBuilder orderDetails = new StringBuilder();
             double totalAmount = 0.0;
             int itemCount = 0;
             
-            // Process selected products
             String[] itemIds = input.split(",");
             for (String itemIdStr : itemIds) {
                 try {
                     int itemId = Integer.parseInt(itemIdStr.trim());
                     boolean found = false;
-                    
-                    // Find product information from menu
                     String[] lines = menuContent.split("\n");
                     for (String line : lines) {
                         line = line.trim();
@@ -247,17 +235,13 @@ public class CustomerInterface {
                 return;
             }
             
-            // Create order
             int orderId = orderManager.createOrder(customer.getCustomerId(), 
                                                    customer.getFullName(), 
                                                    tableNumber, 
                                                    items.toString(), 
                                                    totalAmount);
             
-            // Update table status (set as occupied)
             tableManager.updateTableStatus(tableNumber, true, false);
-            
-            // Print order information
             System.out.println("\n=== ORDER INFORMATION ===");
             System.out.println("Order ID: " + orderId);
             System.out.println("Customer: " + customer.getFullName());
@@ -268,7 +252,6 @@ public class CustomerInterface {
             System.out.println("Status: Pending");
             System.out.println("Date: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
             
-            // Save order details to txt file
             saveOrderToFile(orderId, customer.getFullName(), tableNumber, items.toString(), 
                           totalAmount, orderDetails.toString());
             
@@ -307,7 +290,6 @@ public class CustomerInterface {
         try {
             System.out.println("\n=== RESERVATION ===");
             
-            // Show tables
             System.out.println(tableManager.getAllTables());
             
             System.out.print("Your phone number: ");
@@ -316,30 +298,25 @@ public class CustomerInterface {
             System.out.print("Table number: ");
             int tableNumber = Integer.parseInt(scanner.nextLine().trim());
             
-            // Check if table is available
             if (!tableManager.isTableAvailable(tableNumber)) {
                 System.out.println("This table is not available! Please select another table.");
                 return;
             }
             
-            // Get time only
             System.out.print("Reservation time (HH:MM format, e.g., 19:30): ");
             String timeStr = scanner.nextLine().trim();
             
-            // Get today's date and combine with time
             LocalDate today = LocalDate.now();
             LocalDateTime reservationDate = LocalDateTime.parse(
                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + timeStr,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
             );
             
-            // Check for past time
             if (reservationDate.isBefore(LocalDateTime.now())) {
                 System.out.println("You cannot select a past time!");
                 return;
             }
             
-            // Check if reservation exists at the same time for the same table
             if (reservationManager.isReservationExists(tableNumber, reservationDate)) {
                 System.out.println("This table is already reserved at this time! Please select another time.");
                 return;
@@ -348,7 +325,6 @@ public class CustomerInterface {
             int reservationId = reservationManager.createReservation(
                 customer.getCustomerId(), customer.getFullName(), phone, tableNumber, reservationDate);
             
-            // Update table status (set as reserved)
             tableManager.updateTableStatus(tableNumber, false, true);
             
             System.out.println("\nReservation made!");
@@ -402,7 +378,6 @@ public class CustomerInterface {
                     int id = Integer.parseInt(fields[0]);
                     int resCustomerId = Integer.parseInt(fields[1]);
                     
-                    // Show only reservations belonging to this customer
                     if (resCustomerId == customer.getCustomerId()) {
                         String customerName = fields[2];
                         String customerPhone = fields[3];
@@ -414,7 +389,6 @@ public class CustomerInterface {
                         if (isActive) {
                             found = true;
                             try {
-                                // Remove nanoseconds part
                                 if (dateStr.contains(".")) {
                                     dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                 }
@@ -481,7 +455,6 @@ public class CustomerInterface {
                         try {
                             status = OrderStatus.valueOf(statusStr);
                         } catch (IllegalArgumentException e) {
-                            // Status parse edilemezse atla
                             continue;
                         }
                         
@@ -493,18 +466,15 @@ public class CustomerInterface {
                                   .append(" | Amount: ").append(totalAmount).append(" TL")
                                   .append(" | Status: ").append(status.getDescription());
                             
-                            // Read date information
                             if (fields.length >= 8) {
                                 String dateStr = fields[7];
                                 try {
-                                    // Remove nanoseconds part
                                     if (dateStr.contains(".")) {
                                         dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                     }
                                     LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                     orders.append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                                 } catch (Exception e) {
-                                    // Don't show date if parsing fails
                                 }
                             }
                             orders.append("\n");
@@ -557,11 +527,9 @@ public class CustomerInterface {
                         try {
                             status = OrderStatus.valueOf(statusStr);
                         } catch (IllegalArgumentException e) {
-                            // Status parse edilemezse atla
                             continue;
                         }
                         
-                        // Show only SERVED or CANCELLED orders
                         if (status == OrderStatus.SERVED || status == OrderStatus.CANCELLED) {
                             found = true;
                             orders.append("Order ID: ").append(id)
@@ -570,18 +538,15 @@ public class CustomerInterface {
                                   .append(" | Amount: ").append(totalAmount).append(" TL")
                                   .append(" | Status: ").append(status.getDescription());
                             
-                            // Read date information
                             if (fields.length >= 8) {
                                 String dateStr = fields[7];
                                 try {
-                                    // Remove nanoseconds part
                                     if (dateStr.contains(".")) {
                                         dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                     }
                                     LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                     orders.append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                                 } catch (Exception e) {
-                                    // Don't show date if parsing fails
                                 }
                             }
                             orders.append("\n");

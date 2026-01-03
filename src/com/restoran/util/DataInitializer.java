@@ -4,14 +4,10 @@ import com.restoran.exception.FileOperationException;
 import com.restoran.model.*;
 import com.restoran.data.DataManager;
 
-/**
- * Class that creates initial data
- */
 public class DataInitializer {
     
     public static void initializeData() {
         try {
-            // Create business account
             if (!FileHandler.fileExists("business.txt")) {
                 Business business = new Business("Ahmet", "Yılmaz", "restoran", "1234", 
                                                 "Lezzet Restoran", "İstanbul, Kadıköy");
@@ -19,26 +15,23 @@ public class DataInitializer {
                 System.out.println("Business account created: restoran / 1234");
             }
 
-            // Create menu
             if (!FileHandler.fileExists("menu.txt")) {
-                // Foods
-                Food food1 = new Food(1, "Adana Kebap", 120.0, "Acılı kıyma kebabı", "Ana Yemek");
-                Food food2 = new Food(2, "Urfa Kebap", 120.0, "Acısız kıyma kebabı", "Ana Yemek");
-                Food food3 = new Food(3, "Döner", 100.0, "Tavuk döner", "Ana Yemek");
-                Food food4 = new Food(4, "Lahmacun", 35.0, "İnce hamur üzerine kıymalı", "Ana Yemek");
-                Food food5 = new Food(5, "Pide", 60.0, "Kaşarlı pide", "Ana Yemek");
-                Food food6 = new Food(6, "Mercimek Çorbası", 25.0, "Sıcak mercimek çorbası", "Çorba");
-                Food food7 = new Food(7, "Ezogelin Çorbası", 25.0, "Bulgurlu çorba", "Çorba");
-                Food food8 = new Food(8, "Çoban Salata", 30.0, "Taze sebzeler", "Salata");
-                Food food9 = new Food(9, "Mevsim Salatası", 35.0, "Karışık salata", "Salata");
-                Food food10 = new Food(10, "Izgara Köfte", 110.0, "El yapımı köfte", "Ana Yemek");
+                Food food1 = new Food(1, "Adana Kebab", 120.0, "Spicy minced meat kebab", "Main Dish");
+                Food food2 = new Food(2, "Urfa Kebab", 120.0, "Non-spicy minced meat kebab", "Main Dish");
+                Food food3 = new Food(3, "Doner", 100.0, "Chicken doner", "Main Dish");
+                Food food4 = new Food(4, "Lahmacun", 35.0, "Thin dough with minced meat", "Main Dish");
+                Food food5 = new Food(5, "Pide", 60.0, "Cheese pide", "Main Dish");
+                Food food6 = new Food(6, "Lentil Soup", 25.0, "Hot lentil soup", "Soup");
+                Food food7 = new Food(7, "Ezogelin Soup", 25.0, "Soup with bulgur", "Soup");
+                Food food8 = new Food(8, "Shepherd Salad", 30.0, "Fresh vegetables", "Salad");
+                Food food9 = new Food(9, "Seasonal Salad", 35.0, "Mixed salad", "Salad");
+                Food food10 = new Food(10, "Grilled Meatball", 110.0, "Handmade meatball", "Main Dish");
 
-                // Desserts
-                Dessert dessert1 = new Dessert(11, "Baklava", 80.0, "Cevizli baklava", "Şerbetli");
-                Dessert dessert2 = new Dessert(12, "Sütlaç", 35.0, "Sıcak sütlaç", "Sütlü");
-                Dessert dessert3 = new Dessert(13, "Künefe", 90.0, "Sıcak künefe", "Şerbetli");
-                Dessert dessert4 = new Dessert(14, "Dondurma", 40.0, "Vanilyalı dondurma", "Dondurma");
-                Dessert dessert5 = new Dessert(15, "Kazandibi", 40.0, "Karamelli muhallebi", "Sütlü");
+                Dessert dessert1 = new Dessert(11, "Baklava", 80.0, "Walnut baklava", "Syrupy");
+                Dessert dessert2 = new Dessert(12, "Rice Pudding", 35.0, "Hot rice pudding", "Milk-based");
+                Dessert dessert3 = new Dessert(13, "Kunefe", 90.0, "Hot kunefe", "Syrupy");
+                Dessert dessert4 = new Dessert(14, "Ice Cream", 40.0, "Vanilla ice cream", "Ice Cream");
+                Dessert dessert5 = new Dessert(15, "Kazandibi", 40.0, "Caramel pudding", "Milk-based");
 
                 DataManager.saveMenuItem(food1);
                 DataManager.saveMenuItem(food2);
@@ -59,7 +52,6 @@ public class DataInitializer {
                 System.out.println("Menu created (15 items)");
             }
 
-            // Create tables
             if (!FileHandler.fileExists("tables.txt")) {
                 Table table1 = new Table(1, 4);
                 Table table2 = new Table(2, 4);
@@ -82,7 +74,6 @@ public class DataInitializer {
                 System.out.println("Tables created (8 tables)");
             }
 
-            // Create waiters
             if (!FileHandler.fileExists("waiters.txt")) {
                 Waiter waiter1 = new Waiter(1, "Mehmet", "Demir", "05551234567");
                 Waiter waiter2 = new Waiter(2, "Ayşe", "Kaya", "05559876543");

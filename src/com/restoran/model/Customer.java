@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Müşteri sınıfı
- */
 public class Customer extends User {
     private int customerId;
     private static int customerCounter = 1;
@@ -19,7 +16,7 @@ public class Customer extends User {
 
     @Override
     public String getUserType() {
-        return "Müşteri";
+        return "Customer";
     }
 
     public int getCustomerId() {

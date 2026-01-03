@@ -8,9 +8,6 @@ import com.restoran.data.DataManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Reservation management service
- */
 public class ReservationManager {
     private int nextReservationId = 1;
 
@@ -33,14 +30,12 @@ public class ReservationManager {
                             int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
-                            // Ignore
                         }
                     }
                 }
                 nextReservationId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // First usage
         }
     }
 
@@ -79,20 +74,16 @@ public class ReservationManager {
             if (fields.length >= 7) {
                 int id = Integer.parseInt(fields[0]);
                 if (id == reservationId) {
-                    // Customer Id check (customerId -1 ise kontrol yapma - işletme için)
                     int resCustomerId = Integer.parseInt(fields[1]);
                     if (customerId != -1 && resCustomerId != customerId) {
                         throw new NotFoundException("This reservation doesn't belong to you!");
                     }
                     
-                    // Cancel reservation (isActive = false yap)
-                    String customerName = fields[2]; // customerName
-                    String customerPhone = fields[3]; // customerPhone
-                    tableNumber = Integer.parseInt(fields[4]); // tableNumber
-                    String reservationDate = fields[5]; // reservationDate
-                    String numberOfGuests = fields[6]; // numberOfGuests
-                    
-                    // Create new line
+                    String customerName = fields[2];
+                    String customerPhone = fields[3];
+                    tableNumber = Integer.parseInt(fields[4]);
+                    String reservationDate = fields[5];
+                    String numberOfGuests = fields[6];
                     StringBuilder newLine = new StringBuilder();
                     newLine.append(id).append("|")
                            .append(resCustomerId).append("|")
@@ -101,7 +92,7 @@ public class ReservationManager {
                            .append(tableNumber).append("|")
                            .append(reservationDate).append("|")
                            .append(numberOfGuests).append("|")
-                           .append("false"); // isActive = false
+                           .append("false");
                     
                     newContent.append(newLine.toString()).append("\n");
                     found = true;
@@ -119,13 +110,11 @@ public class ReservationManager {
         
         DataManager.updateReservationFile(newContent.toString());
         
-        // Update table status (remove reserve status)
         if (tableNumber > 0) {
             try {
                 com.restoran.service.TableManager tableManager = new com.restoran.service.TableManager();
                 tableManager.updateTableStatus(tableNumber, false, false);
             } catch (Exception e) {
-                // Table update error, continue
             }
         }
     }
@@ -199,14 +188,12 @@ public class ReservationManager {
                 if (isActive && tNumber == tableNumber) {
                     try {
                         LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                        // Same day and same time control
                         if (date.toLocalDate().equals(reservationDate.toLocalDate()) &&
                             date.getHour() == reservationDate.getHour() &&
                             date.getMinute() == reservationDate.getMinute()) {
                             return true;
                         }
                     } catch (Exception e) {
-                        // Parse error, continue
                     }
                 }
             }

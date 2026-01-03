@@ -5,15 +5,10 @@ import com.restoran.model.Business;
 import com.restoran.service.LoginService;
 import java.util.Scanner;
 
-/**
- * Main application class
- * Uses inner class
- */
 public class RestaurantApp {
     private Scanner scanner;
     private LoginService loginService;
 
-    // Inner class - Application configuration
     public class AppConfig {
         private String appName;
         private String version;

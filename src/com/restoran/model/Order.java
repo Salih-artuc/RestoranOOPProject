@@ -2,15 +2,12 @@ package com.restoran.model;
 
 import java.time.LocalDateTime;
 
-/**
- * Sipariş sınıfı
- */
 public class Order {
     private int orderId;
     private int customerId;
     private String customerName;
     private int tableNumber;
-    private String items; // Ordered Items (Will be hidden as String)
+    private String items;
     private double totalAmount;
     private OrderStatus status;
     private LocalDateTime orderDate;
@@ -31,7 +28,6 @@ public class Order {
         this.waiterName = "";
     }
 
-    // Encapsulation
     public int getOrderId() {
         return orderId;
     }

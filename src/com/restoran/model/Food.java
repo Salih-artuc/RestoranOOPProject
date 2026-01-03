@@ -1,10 +1,7 @@
 package com.restoran.model;
 
-/**
- * Yemek sınıfı
- */
 public class Food extends MenuItem {
-    private String category; // Ana yemek, çorba, salata vb.
+    private String category;
 
     public Food(int itemId, String name, double price, String description, String category) {
         super(itemId, name, price, description);
@@ -13,7 +10,7 @@ public class Food extends MenuItem {
 
     @Override
     public String getItemType() {
-        return "Yemek";
+        return "Food";
     }
 
     public String getCategory() {

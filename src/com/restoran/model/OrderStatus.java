@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Sipariş durumu enum
- */
 public enum OrderStatus {
     PENDING("Pending"),
     PREPARING("Preparing"),

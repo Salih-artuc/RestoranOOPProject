@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Kullanıcı abstract sınıfı
- */
 public abstract class User {
     protected String name;
     protected String surname;
@@ -16,10 +13,7 @@ public abstract class User {
         this.password = password;
     }
 
-    // Abstract method
     public abstract String getUserType();
-
-    // Encapsulation
     public String getName() {
         return name;
     }

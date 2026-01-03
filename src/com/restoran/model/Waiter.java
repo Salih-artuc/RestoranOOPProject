@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Garson sınıfı
- */
 public class Waiter {
     private int waiterId;
     private String name;
@@ -18,7 +15,6 @@ public class Waiter {
         this.isAvailable = true;
     }
 
-    // Encapsulation
     public int getWaiterId() {
         return waiterId;
     }

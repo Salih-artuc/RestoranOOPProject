@@ -5,9 +5,6 @@ import com.restoran.exception.NotFoundException;
 import com.restoran.model.Table;
 import com.restoran.data.DataManager;
 
-/**
- * Table management service
- */
 public class TableManager {
     public void addTable(int tableNumber, int capacity) throws FileOperationException {
         Table table = new Table(tableNumber, capacity);

@@ -5,9 +5,6 @@ import com.restoran.exception.NotFoundException;
 import com.restoran.model.Waiter;
 import com.restoran.data.DataManager;
 
-/**
- * Waiter management service
- */
 public class WaiterManager {
     private int nextWaiterId = 1;
 
@@ -30,14 +27,12 @@ public class WaiterManager {
                             int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
-                            // Ignore
                         }
                     }
                 }
                 nextWaiterId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // First usage
         }
     }
 

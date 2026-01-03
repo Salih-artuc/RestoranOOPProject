@@ -6,9 +6,6 @@ import com.restoran.model.Business;
 import com.restoran.model.Customer;
 import com.restoran.data.DataManager;
 
-/**
- * Login service
- */
 public class LoginService {
     public Business loginBusiness(String username, String password) throws InvalidInputException, FileOperationException {
         if (username == null || username.trim().isEmpty()) {
@@ -64,12 +61,9 @@ public class LoginService {
             throw new InvalidInputException("Password cannot be empty!");
         }
 
-        // Username check
         if (DataManager.customerExists(username)) {
             throw new InvalidInputException("This username already exists!");
         }
-
-        // Create new customer
         int customerId = DataManager.getNextCustomerId();
         Customer customer = new Customer(name, surname, username, password, customerId);
         DataManager.saveCustomer(customer);

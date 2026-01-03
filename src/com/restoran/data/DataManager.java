@@ -5,10 +5,6 @@ import com.restoran.model.*;
 import com.restoran.util.FileHandler;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Class for data management
- * Works with String and StringBuilder without using ArrayList
- */
 public class DataManager {
     private static final String BUSINESS_FILE = "business.txt";
     private static final String CUSTOMERS_FILE = "customers.txt";
@@ -18,7 +14,6 @@ public class DataManager {
     private static final String TABLES_FILE = "tables.txt";
     private static final String WAITERS_FILE = "waiters.txt";
 
-    // Business operations
     public static void saveBusiness(Business business) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(business.getName()).append("|")
@@ -56,7 +51,6 @@ public class DataManager {
         return null;
     }
 
-    // Menu operations
     public static void saveMenuItem(MenuItem item) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(item.getItemType()).append("|")
@@ -83,7 +77,6 @@ public class DataManager {
         FileHandler.overwriteFile(MENU_FILE, content);
     }
 
-    // Order operations
     public static void saveOrder(Order order) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(order.getOrderId()).append("|")
@@ -103,7 +96,6 @@ public class DataManager {
         return FileHandler.readFromFile(ORDERS_FILE);
     }
 
-    // Reservation operations
     public static void saveReservation(Reservation reservation) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(reservation.getReservationId()).append("|")
@@ -121,7 +113,6 @@ public class DataManager {
         return FileHandler.readFromFile(RESERVATIONS_FILE);
     }
 
-    // Table operations
     public static void saveTable(Table table) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(table.getTableNumber()).append("|")
@@ -135,7 +126,6 @@ public class DataManager {
         return FileHandler.readFromFile(TABLES_FILE);
     }
 
-    // Waiter operations
     public static void saveWaiter(Waiter waiter) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(waiter.getWaiterId()).append("|")
@@ -166,7 +156,6 @@ public class DataManager {
         FileHandler.overwriteFile(WAITERS_FILE, content);
     }
 
-    // Customer operations
     public static void saveCustomer(Customer customer) throws FileOperationException {
         StringBuilder sb = new StringBuilder();
         sb.append(customer.getCustomerId()).append("|")
@@ -239,7 +228,6 @@ public class DataManager {
                     int id = Integer.parseInt(fields[0]);
                     if (id > maxId) maxId = id;
                 } catch (NumberFormatException e) {
-                    // Ignore
                 }
             }
         }

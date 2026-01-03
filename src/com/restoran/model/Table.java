@@ -1,8 +1,5 @@
 package com.restoran.model;
 
-/**
- * Masa sınıfı
- */
 public class Table {
     private int tableNumber;
     private int capacity;
@@ -16,7 +13,6 @@ public class Table {
         this.isReserved = false;
     }
 
-    // Encapsulation
     public int getTableNumber() {
         return tableNumber;
     }

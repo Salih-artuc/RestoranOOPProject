@@ -2,9 +2,6 @@ package com.restoran.model;
 
 import java.time.LocalDateTime;
 
-/**
- * Rezervasyon sınıfı
- */
 public class Reservation {
     private int reservationId;
     private int customerId;
@@ -27,7 +24,6 @@ public class Reservation {
         this.isActive = true;
     }
 
-    // Encapsulation
     public int getReservationId() {
         return reservationId;
     }

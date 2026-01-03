@@ -6,10 +6,6 @@ import com.restoran.exception.NotFoundException;
 import com.restoran.model.*;
 import com.restoran.data.DataManager;
 
-/**
- * Menu management service
- * Interface implementation
- */
 public class MenuManager implements IMenuService {
     private int nextItemId = 1;
 
@@ -32,14 +28,12 @@ public class MenuManager implements IMenuService {
                             int id = Integer.parseInt(fields[1]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
-                            // Ignore
                         }
                     }
                 }
                 nextItemId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // First usage, nextItemId remains 1
         }
     }
 
@@ -83,7 +77,6 @@ public class MenuManager implements IMenuService {
             line = line.trim();
             if (line.isEmpty()) continue;
             
-            // Split line by | character
             String[] parts = line.split("\\|", -1);
             
             if (parts.length >= 6) {
@@ -91,27 +84,22 @@ public class MenuManager implements IMenuService {
                     int id = Integer.parseInt(parts[1].trim());
                     
                     if (id == itemId) {
-                        // Skip product to be deleted
                         found = true;
                     } else if (id > itemId) {
-                        // Decrease ID of products after deleted product by 1
                         int newId = id - 1;
                         StringBuilder newLine = new StringBuilder();
-                        newLine.append(parts[0]).append("|") // type
-                               .append(newId).append("|") // new ID
-                               .append(parts[2]).append("|") // name
-                               .append(parts[3]).append("|") // price
-                               .append(parts[4]).append("|") // description
-                               .append(parts[5]); // isActive
-                        
-                        // Son token category veya dessertType olabilir (varsa)
+                        newLine.append(parts[0]).append("|")
+                               .append(newId).append("|")
+                               .append(parts[2]).append("|")
+                               .append(parts[3]).append("|")
+                               .append(parts[4]).append("|")
+                               .append(parts[5]);
                         if (parts.length >= 7 && !parts[6].trim().isEmpty()) {
                             newLine.append("|").append(parts[6]);
                         }
                         
                         newContent.append(newLine.toString()).append("\n");
                     } else {
-                        // Products before deleted product, add as is
                         newContent.append(line).append("\n");
                     }
                 } catch (NumberFormatException e) {
@@ -128,7 +116,6 @@ public class MenuManager implements IMenuService {
         
         DataManager.updateMenuFile(newContent.toString());
         
-        // Update nextItemId (decrease by 1 if product was deleted)
         if (nextItemId > 1) {
             nextItemId--;
         }
@@ -153,24 +140,19 @@ public class MenuManager implements IMenuService {
             line = line.trim();
             if (line.isEmpty()) continue;
             
-            // Split line by | character
             String[] parts = line.split("\\|", -1);
             
             if (parts.length >= 6) {
                 try {
                     int id = Integer.parseInt(parts[1].trim());
                     if (id == itemId) {
-                        // Product found, update price
-                        // Format: type|id|name|price|description|isActive|category/dessertType
                         StringBuilder newLine = new StringBuilder();
-                        newLine.append(parts[0]).append("|") // type
-                               .append(parts[1]).append("|") // id
-                               .append(parts[2]).append("|") // name
-                               .append(newPrice).append("|") // yeni fiyat
-                               .append(parts[4]).append("|") // description
-                               .append(parts[5]); // isActive
-                        
-                        // Son token category veya dessertType olabilir (varsa)
+                        newLine.append(parts[0]).append("|")
+                               .append(parts[1]).append("|")
+                               .append(parts[2]).append("|")
+                               .append(newPrice).append("|")
+                               .append(parts[4]).append("|")
+                               .append(parts[5]);
                         if (parts.length >= 7 && !parts[6].trim().isEmpty()) {
                             newLine.append("|").append(parts[6]);
                         }
@@ -178,7 +160,6 @@ public class MenuManager implements IMenuService {
                         newContent.append(newLine.toString()).append("\n");
                         found = true;
                     } else {
-                        // Different product, add as is
                         newContent.append(line).append("\n");
                     }
                 } catch (NumberFormatException e) {

@@ -4,9 +4,6 @@ import com.restoran.model.*;
 import com.restoran.service.*;
 import java.util.Scanner;
 
-/**
- * Business interface
- */
 public class BusinessInterface {
     private Scanner scanner;
     private Business business;
@@ -107,7 +104,7 @@ public class BusinessInterface {
                         System.out.println("Invalid choice!");
                 }
             } catch (Exception e) {
-                System.out.println("Hata: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
@@ -116,7 +113,7 @@ public class BusinessInterface {
         try {
             System.out.println("\n" + menuManager.displayMenu());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -151,7 +148,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid price!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -166,7 +163,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -183,7 +180,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -219,7 +216,6 @@ public class BusinessInterface {
                     try {
                         status = com.restoran.model.OrderStatus.valueOf(statusStr);
                     } catch (IllegalArgumentException e) {
-                        // Status parse edilemezse atla
                         continue;
                     }
                     
@@ -232,21 +228,17 @@ public class BusinessInterface {
                               .append(" | Amount: ").append(totalAmount).append(" TL")
                               .append(" | Status: ").append(status.getDescription());
                         
-                        // Read date information
                         if (fields.length >= 8) {
                             String dateStr = fields[7]; // orderDate
                             try {
-                                // Nanosaniye kısmını kaldır
                                 if (dateStr.contains(".")) {
                                     dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                 }
                                 java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                 orders.append(" | Date: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                             } catch (Exception e) {
-                                // Don't show date if parsing fails
                             }
                             
-                            // Read waiter information
                             if (fields.length >= 10) {
                                 try {
                                     int waiterId = Integer.parseInt(fields[8]);
@@ -254,7 +246,6 @@ public class BusinessInterface {
                                         orders.append(" | Waiter: ").append(fields[9]);
                                     }
                                 } catch (NumberFormatException e) {
-                                    // Waiter ID parse edilemezse atla
                                 }
                             }
                         }
@@ -269,7 +260,7 @@ public class BusinessInterface {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -305,11 +296,9 @@ public class BusinessInterface {
                     try {
                         status = com.restoran.model.OrderStatus.valueOf(statusStr);
                     } catch (IllegalArgumentException e) {
-                        // Status parse edilemezse atla
                         continue;
                     }
                     
-                    // Sadece SERVED veya CANCELLED olanları göster
                     if (status == com.restoran.model.OrderStatus.SERVED || status == com.restoran.model.OrderStatus.CANCELLED) {
                         found = true;
                         orders.append("Order ID: ").append(id)
@@ -319,18 +308,15 @@ public class BusinessInterface {
                               .append(" | Amount: ").append(totalAmount).append(" TL")
                               .append(" | Status: ").append(status.getDescription());
                         
-                        // Read date information
                         if (fields.length >= 8) {
                             String dateStr = fields[7];
                             try {
-                                // Nanosaniye kısmını kaldır
                                 if (dateStr.contains(".")) {
                                     dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                 }
                                 java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                 orders.append(" | Tarih: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                             } catch (Exception e) {
-                                // Parse edilemezse tarih gösterme
                             }
                         }
                         orders.append("\n");
@@ -344,7 +330,7 @@ public class BusinessInterface {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -352,7 +338,7 @@ public class BusinessInterface {
         try {
             System.out.println("\n" + tableManager.getAllTables());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -394,13 +380,10 @@ public class BusinessInterface {
                     return;
             }
             
-            // Get order's table number
             int tableNumber = orderManager.getOrderTableNumber(orderId);
             
-            // Update order status
             orderManager.updateOrderStatus(orderId, newStatus);
             
-            // If order is SERVED or CANCELLED, clear the table
             if (newStatus == com.restoran.model.OrderStatus.SERVED || 
                 newStatus == com.restoran.model.OrderStatus.CANCELLED) {
                 if (tableNumber > 0) {
@@ -413,7 +396,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -421,7 +404,7 @@ public class BusinessInterface {
         try {
             System.out.println("\n" + reservationManager.getAllReservations());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -436,16 +419,15 @@ public class BusinessInterface {
             System.out.print("Waiter ID: ");
             int waiterId = Integer.parseInt(scanner.nextLine().trim());
             
-            // Waiter ID check
             String waiterName = waiterManager.getWaiterInfo(waiterId);
             orderManager.assignWaiter(orderId, waiterId, waiterName);
             System.out.println("Waiter assigned!");
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (com.restoran.exception.NotFoundException e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -462,7 +444,7 @@ public class BusinessInterface {
             waiterManager.addWaiter(name, surname, phone);
             System.out.println("Waiter added!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -473,12 +455,12 @@ public class BusinessInterface {
             System.out.print("Reservation ID to cancel: ");
             int reservationId = Integer.parseInt(scanner.nextLine().trim());
             
-            reservationManager.cancelReservation(reservationId, -1); // -1 = işletme, kontrol yapma
+            reservationManager.cancelReservation(reservationId, -1);
             System.out.println("Reservation cancelled!");
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -494,7 +476,7 @@ public class BusinessInterface {
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -504,14 +486,13 @@ public class BusinessInterface {
             System.out.print("Kapasite: ");
             int capacity = Integer.parseInt(scanner.nextLine().trim());
             
-            // Automatic table number assignment
             int nextTableNumber = tableManager.getNextTableNumber();
             tableManager.addTable(nextTableNumber, capacity);
             System.out.println("Table added! Table number: " + nextTableNumber);
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

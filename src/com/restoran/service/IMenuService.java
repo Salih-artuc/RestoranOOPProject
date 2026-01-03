@@ -1,8 +1,5 @@
 package com.restoran.service;
 
-/**
- * Menü servisi interface'i
- */
 public interface IMenuService {
     void addFood(String name, double price, String description, String category) throws Exception;
     void addDessert(String name, double price, String description, String dessertType) throws Exception;

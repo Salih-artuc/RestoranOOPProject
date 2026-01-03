@@ -5,10 +5,6 @@ import com.restoran.exception.NotFoundException;
 import com.restoran.model.*;
 import com.restoran.data.DataManager;
 
-/**
- * Order management service
- * Interface implementation
- */
 public class OrderManager implements IOrderService {
     private int nextOrderId = 1;
 
@@ -31,14 +27,12 @@ public class OrderManager implements IOrderService {
                             int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
-                            // Ignore
                         }
                     }
                 }
                 nextOrderId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // First usage
         }
     }
 
@@ -71,13 +65,13 @@ public class OrderManager implements IOrderService {
                     if (id == orderId) {
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(id).append("|")
-                               .append(fields[1]).append("|") // customerId
-                               .append(fields[2]).append("|") // customerName
-                               .append(fields[3]).append("|") // tableNumber
-                               .append(fields[4]).append("|") // items
-                               .append(fields[5]).append("|") // totalAmount
-                               .append(fields[6]).append("|") // status
-                               .append(fields[7]).append("|") // orderDate
+                               .append(fields[1]).append("|")
+                               .append(fields[2]).append("|")
+                               .append(fields[3]).append("|")
+                               .append(fields[4]).append("|")
+                               .append(fields[5]).append("|")
+                               .append(fields[6]).append("|")
+                               .append(fields[7]).append("|")
                                .append(waiterId).append("|")
                                .append(waiterName);
                         
@@ -123,14 +117,13 @@ public class OrderManager implements IOrderService {
                     if (id == orderId) {
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(id).append("|")
-                               .append(fields[1]).append("|") // customerId
-                               .append(fields[2]).append("|") // customerName
-                               .append(fields[3]).append("|") // tableNumber
-                               .append(fields[4]).append("|") // items
-                               .append(fields[5]).append("|") // totalAmount
+                               .append(fields[1]).append("|")
+                               .append(fields[2]).append("|")
+                               .append(fields[3]).append("|")
+                               .append(fields[4]).append("|")
+                               .append(fields[5]).append("|")
                                .append(newStatus.name()).append("|");
                         
-                        // Add remaining fields
                         for (int i = 7; i < fields.length; i++) {
                             newLine.append("|").append(fields[i]);
                         }
@@ -171,11 +164,10 @@ public class OrderManager implements IOrderService {
                 try {
                     int id = Integer.parseInt(fields[0]);
                     if (id == orderId) {
-                        int tableNumber = Integer.parseInt(fields[3]); // tableNumber
+                        int tableNumber = Integer.parseInt(fields[3]);
                         return tableNumber;
                     }
                 } catch (NumberFormatException e) {
-                    // Continue
                 }
             }
         }
