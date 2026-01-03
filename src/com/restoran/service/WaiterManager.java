@@ -4,7 +4,6 @@ import com.restoran.exception.FileOperationException;
 import com.restoran.exception.NotFoundException;
 import com.restoran.model.Waiter;
 import com.restoran.data.DataManager;
-import java.util.StringTokenizer;
 
 /**
  * Waiter management service
@@ -20,15 +19,15 @@ public class WaiterManager {
         try {
             String content = DataManager.getAllWaiters();
             if (!content.isEmpty()) {
-                StringTokenizer lines = new StringTokenizer(content, "\n");
+                String[] lines = content.split("\n");
                 int maxId = 0;
-                while (lines.hasMoreTokens()) {
-                    String line = lines.nextToken().trim();
+                for (String line : lines) {
+                    line = line.trim();
                     if (line.isEmpty()) continue;
-                    StringTokenizer tokens = new StringTokenizer(line, "|");
-                    if (tokens.hasMoreTokens()) {
+                    String[] fields = line.split("\\|", -1);
+                    if (fields.length > 0) {
                         try {
-                            int id = Integer.parseInt(tokens.nextToken());
+                            int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
                             // Ignore
@@ -50,24 +49,24 @@ public class WaiterManager {
     public String getAllWaiters() throws FileOperationException {
         String content = DataManager.getAllWaiters();
         if (content.isEmpty()) {
-            return "Garson bilgisi yok!";
+            return "No waiter information!";
         }
 
         StringBuilder waiters = new StringBuilder();
         waiters.append("=== WAITERS ===\n");
         
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                int waiterId = Integer.parseInt(tokens.nextToken());
-                String name = tokens.nextToken();
-                String surname = tokens.nextToken();
-                String phoneNumber = tokens.nextToken();
-                boolean isAvailable = Boolean.parseBoolean(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                int waiterId = Integer.parseInt(fields[0]);
+                String name = fields[1];
+                String surname = fields[2];
+                String phoneNumber = fields[3];
+                boolean isAvailable = Boolean.parseBoolean(fields[4]);
                 
                 waiters.append("ID: ").append(waiterId)
                        .append(" | Name Surname: ").append(name).append(" ").append(surname)
@@ -86,19 +85,19 @@ public class WaiterManager {
             throw new NotFoundException("Waiter not found!");
         }
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                int wId = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                int wId = Integer.parseInt(fields[0]);
                 if (wId == waiterId) {
-                    String name = tokens.nextToken();
-                    String surname = tokens.nextToken();
-                    String phoneNumber = tokens.nextToken();
-                    boolean isAvailable = Boolean.parseBoolean(tokens.nextToken());
+                    String name = fields[1];
+                    String surname = fields[2];
+                    String phoneNumber = fields[3];
+                    boolean isAvailable = Boolean.parseBoolean(fields[4]);
                     
                     return name + " " + surname;
                 }
@@ -116,15 +115,15 @@ public class WaiterManager {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                int wId = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                int wId = Integer.parseInt(fields[0]);
                 if (wId != waiterId) {
                     newContent.append(line).append("\n");
                 } else {

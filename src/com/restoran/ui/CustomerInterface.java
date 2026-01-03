@@ -8,10 +8,9 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.StringTokenizer;
 
 /**
- * Müşteri arayüzü
+ * Customer interface
  */
 public class CustomerInterface {
     private Scanner scanner;
@@ -30,10 +29,10 @@ public class CustomerInterface {
     }
 
     public void start() {
-        System.out.println("\n=== MÜŞTERİ PANELİ ===");
-        System.out.println("1. Giriş Yap");
-        System.out.println("2. Kayıt Ol");
-        System.out.print("Seçiminiz: ");
+        System.out.println("\n=== CUSTOMER PANEL ===");
+        System.out.println("1. Login");
+        System.out.println("2. Register");
+        System.out.print("Your choice: ");
         
         String choice = scanner.nextLine().trim();
         
@@ -46,80 +45,80 @@ public class CustomerInterface {
                     handleRegister();
                     break;
                 default:
-                    System.out.println("Geçersiz seçim!");
+                    System.out.println("Invalid choice!");
                     return;
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     private void handleLogin() {
         try {
-            System.out.println("\n=== GİRİŞ ===");
-            System.out.print("Kullanıcı adı: ");
+            System.out.println("\n=== LOGIN ===");
+            System.out.print("Username: ");
             String username = scanner.nextLine().trim();
-            System.out.print("Şifre: ");
+            System.out.print("Password: ");
             String password = scanner.nextLine().trim();
             
             LoginService loginService = new LoginService();
             this.customer = loginService.loginCustomer(username, password);
             
             if (customer != null) {
-                System.out.println("\nHoş geldiniz " + customer.getFullName() + "!");
+                System.out.println("\nWelcome " + customer.getFullName() + "!");
                 showMenu();
             }
         } catch (InvalidInputException e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         } catch (FileOperationException e) {
-            System.out.println("Dosya hatası: " + e.getMessage());
+            System.out.println("File error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Beklenmeyen hata: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
     private void handleRegister() {
         try {
-            System.out.println("\n=== KAYIT OL ===");
-            System.out.print("Adınız: ");
+            System.out.println("\n=== REGISTER ===");
+            System.out.print("First name: ");
             String name = scanner.nextLine().trim();
-            System.out.print("Soyadınız: ");
+            System.out.print("Last name: ");
             String surname = scanner.nextLine().trim();
-            System.out.print("Kullanıcı adı: ");
+            System.out.print("Username: ");
             String username = scanner.nextLine().trim();
-            System.out.print("Şifre: ");
+            System.out.print("Password: ");
             String password = scanner.nextLine().trim();
             
             if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                System.out.println("Tüm alanlar doldurulmalıdır!");
+                System.out.println("All fields must be filled!");
                 return;
             }
             
             LoginService loginService = new LoginService();
             this.customer = loginService.registerCustomer(name, surname, username, password);
             
-            System.out.println("\nKayıt başarılı! Hoş geldiniz " + customer.getFullName() + "!");
+            System.out.println("\nRegistration successful! Welcome " + customer.getFullName() + "!");
             showMenu();
         } catch (InvalidInputException e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         } catch (FileOperationException e) {
-            System.out.println("Dosya hatası: " + e.getMessage());
+            System.out.println("File error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Beklenmeyen hata: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
     private void showMenu() {
         while (true) {
-            System.out.println("\n=== MÜŞTERİ MENÜSÜ ===");
-            System.out.println("1. Sipariş Ver");
-            System.out.println("2. Rezervasyon Yap");
-            System.out.println("3. Rezervasyon İptal");
-            System.out.println("4. Rezervasyonlarım");
-            System.out.println("5. Aktif Siparişler");
-            System.out.println("6. Geçmiş Siparişler");
-            System.out.println("0. Çıkış");
-            System.out.print("Seçiminiz: ");
+            System.out.println("\n=== CUSTOMER MENU ===");
+            System.out.println("1. Place Order");
+            System.out.println("2. Make Reservation");
+            System.out.println("3. Cancel Reservation");
+            System.out.println("4. My Reservations");
+            System.out.println("5. Active Orders");
+            System.out.println("6. Order History");
+            System.out.println("0. Exit");
+            System.out.print("Your choice: ");
             
             String choice = scanner.nextLine().trim();
             
@@ -144,80 +143,80 @@ public class CustomerInterface {
                         showOrderHistory();
                         break;
                     case "0":
-                        System.out.println("Çıkış yapılıyor...");
+                        System.out.println("Logging out...");
                         return;
                     default:
-                        System.out.println("Geçersiz seçim!");
+                        System.out.println("Invalid choice!");
                 }
             } catch (Exception e) {
-                System.out.println("Hata: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
 
     private void placeOrder() {
         try {
-            // Menüyü göster
-            System.out.println("\n=== MENÜ ===");
+            // Show menu
+            System.out.println("\n=== MENU ===");
             System.out.println(menuManager.displayMenu());
             
-            // Masaları göster
-            System.out.println("\n=== MASALAR ===");
+            // Show tables
+            System.out.println("\n=== TABLES ===");
             System.out.println(tableManager.getAllTables());
             
-            // Yemek seçimi
-            System.out.print("\nSipariş vermek için ürün ID'lerini virgülle ayırarak giriniz (örn: 1,2,3): ");
+            // Food selection
+            System.out.print("\nEnter product IDs separated by commas to place order (e.g., 1,2,3): ");
             String input = scanner.nextLine().trim();
             
             if (input.isEmpty()) {
-                System.out.println("En az bir ürün seçmelisiniz!");
+                System.out.println("You must select at least one product!");
                 return;
             }
             
-            // Masa seçimi
-            System.out.print("Masa numarası: ");
+            // Table selection
+            System.out.print("Table number: ");
             int tableNumber = Integer.parseInt(scanner.nextLine().trim());
             
-            // Masa müsait mi kontrol et
+            // Check if table is available
             if (!tableManager.isTableAvailable(tableNumber)) {
-                System.out.println("Bu masa müsait değil! Lütfen başka bir masa seçiniz.");
+                System.out.println("This table is not available! Please select another table.");
                 return;
             }
             
-            // Menü içeriğini al
+            // Get menu content
             String menuContent = DataManager.getAllMenuItems();
             StringBuilder items = new StringBuilder();
             StringBuilder orderDetails = new StringBuilder();
             double totalAmount = 0.0;
             int itemCount = 0;
             
-            // Seçilen ürünleri işle
-            StringTokenizer itemIds = new StringTokenizer(input, ",");
-            while (itemIds.hasMoreTokens()) {
+            // Process selected products
+            String[] itemIds = input.split(",");
+            for (String itemIdStr : itemIds) {
                 try {
-                    int itemId = Integer.parseInt(itemIds.nextToken().trim());
+                    int itemId = Integer.parseInt(itemIdStr.trim());
                     boolean found = false;
                     
-                    // Menüden ürün bilgisini bul
-                    StringTokenizer lines = new StringTokenizer(menuContent, "\n");
-                    while (lines.hasMoreTokens()) {
-                        String line = lines.nextToken().trim();
+                    // Find product information from menu
+                    String[] lines = menuContent.split("\n");
+                    for (String line : lines) {
+                        line = line.trim();
                         if (line.isEmpty()) continue;
                         
-                        StringTokenizer tokens = new StringTokenizer(line, "|");
-                        if (tokens.countTokens() >= 5) {
-                            String type = tokens.nextToken();
-                            int id = Integer.parseInt(tokens.nextToken());
+                        String[] fields = line.split("\\|", -1);
+                        if (fields.length >= 5) {
+                            String type = fields[0];
+                            int id = Integer.parseInt(fields[1]);
                             
                             if (id == itemId) {
                                 found = true;
-                                String name = tokens.nextToken();
-                                double price = Double.parseDouble(tokens.nextToken());
-                                String description = tokens.nextToken();
-                                boolean isActive = Boolean.parseBoolean(tokens.nextToken());
+                                String name = fields[2];
+                                double price = Double.parseDouble(fields[3]);
+                                String description = fields[4];
+                                boolean isActive = Boolean.parseBoolean(fields[5]);
                                 
                                 if (!isActive) {
-                                    System.out.println("Ürün ID " + itemId + " aktif değil!");
+                                    System.out.println("Product ID " + itemId + " is not active!");
                                     continue;
                                 }
                                 
@@ -236,49 +235,49 @@ public class CustomerInterface {
                     }
                     
                     if (!found) {
-                        System.out.println("Ürün ID " + itemId + " bulunamadı!");
+                        System.out.println("Product ID " + itemId + " not found!");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Geçersiz ürün ID!");
+                    System.out.println("Invalid product ID!");
                 }
             }
             
             if (items.length() == 0) {
-                System.out.println("Geçerli ürün bulunamadı!");
+                System.out.println("No valid product found!");
                 return;
             }
             
-            // Sipariş oluştur
+            // Create order
             int orderId = orderManager.createOrder(customer.getCustomerId(), 
                                                    customer.getFullName(), 
                                                    tableNumber, 
                                                    items.toString(), 
                                                    totalAmount);
             
-            // Masa durumunu güncelle (dolu yap)
+            // Update table status (set as occupied)
             tableManager.updateTableStatus(tableNumber, true, false);
             
-            // Sipariş bilgilerini yazdır
-            System.out.println("\n=== SİPARİŞ BİLGİLERİ ===");
-            System.out.println("Sipariş ID: " + orderId);
-            System.out.println("Müşteri: " + customer.getFullName());
-            System.out.println("Masa No: " + tableNumber);
-            System.out.println("Ürünler:");
+            // Print order information
+            System.out.println("\n=== ORDER INFORMATION ===");
+            System.out.println("Order ID: " + orderId);
+            System.out.println("Customer: " + customer.getFullName());
+            System.out.println("Table No: " + tableNumber);
+            System.out.println("Items:");
             System.out.print(orderDetails.toString());
-            System.out.println("Toplam Tutar: " + totalAmount + " TL");
-            System.out.println("Durum: Beklemede");
-            System.out.println("Tarih: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            System.out.println("Total Amount: " + totalAmount + " TL");
+            System.out.println("Status: Pending");
+            System.out.println("Date: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
             
-            // Sipariş detaylarını txt dosyasına kaydet
+            // Save order details to txt file
             saveOrderToFile(orderId, customer.getFullName(), tableNumber, items.toString(), 
                           totalAmount, orderDetails.toString());
             
-            System.out.println("\nSipariş başarıyla oluşturuldu ve kaydedildi!");
+            System.out.println("\nOrder created and saved successfully!");
             
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir numara giriniz!");
+            System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -287,96 +286,96 @@ public class CustomerInterface {
                                 String items, double totalAmount, String orderDetails) {
         try {
             StringBuilder orderInfo = new StringBuilder();
-            orderInfo.append("=== SİPARİŞ DETAYI ===\n");
-            orderInfo.append("Sipariş ID: ").append(orderId).append("\n");
-            orderInfo.append("Müşteri: ").append(customerName).append("\n");
-            orderInfo.append("Masa No: ").append(tableNumber).append("\n");
-            orderInfo.append("Tarih: ").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n");
-            orderInfo.append("Ürünler:\n");
+            orderInfo.append("=== ORDER DETAILS ===\n");
+            orderInfo.append("Order ID: ").append(orderId).append("\n");
+            orderInfo.append("Customer: ").append(customerName).append("\n");
+            orderInfo.append("Table No: ").append(tableNumber).append("\n");
+            orderInfo.append("Date: ").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n");
+            orderInfo.append("Items:\n");
             orderInfo.append(orderDetails);
-            orderInfo.append("Toplam Tutar: ").append(totalAmount).append(" TL\n");
-            orderInfo.append("Durum: Beklemede\n");
+            orderInfo.append("Total Amount: ").append(totalAmount).append(" TL\n");
+            orderInfo.append("Status: Pending\n");
             orderInfo.append("==========================================\n\n");
             
             com.restoran.util.FileHandler.writeToFile("order_details.txt", orderInfo.toString());
         } catch (Exception e) {
-            System.out.println("Sipariş dosyaya kaydedilirken hata oluştu: " + e.getMessage());
+            System.out.println("Error occurred while saving order to file: " + e.getMessage());
         }
     }
 
     private void makeReservation() {
         try {
-            System.out.println("\n=== REZERVASYON ===");
+            System.out.println("\n=== RESERVATION ===");
             
-            // Masaları göster
+            // Show tables
             System.out.println(tableManager.getAllTables());
             
-            System.out.print("Telefon numaranız: ");
+            System.out.print("Your phone number: ");
             String phone = scanner.nextLine().trim();
             
-            System.out.print("Masa numarası: ");
+            System.out.print("Table number: ");
             int tableNumber = Integer.parseInt(scanner.nextLine().trim());
             
-            // Masa müsait mi kontrol et
+            // Check if table is available
             if (!tableManager.isTableAvailable(tableNumber)) {
-                System.out.println("Bu masa müsait değil! Lütfen başka bir masa seçiniz.");
+                System.out.println("This table is not available! Please select another table.");
                 return;
             }
             
-            // Sadece saat al
-            System.out.print("Rezervasyon saati (SS:DD formatında, örn: 19:30): ");
+            // Get time only
+            System.out.print("Reservation time (HH:MM format, e.g., 19:30): ");
             String timeStr = scanner.nextLine().trim();
             
-            // Bugünün tarihini al ve saat ile birleştir
+            // Get today's date and combine with time
             LocalDate today = LocalDate.now();
             LocalDateTime reservationDate = LocalDateTime.parse(
                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + timeStr,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
             );
             
-            // Geçmiş saat kontrolü
+            // Check for past time
             if (reservationDate.isBefore(LocalDateTime.now())) {
-                System.out.println("Geçmiş bir saat seçemezsiniz!");
+                System.out.println("You cannot select a past time!");
                 return;
             }
             
-            // Aynı saatte aynı masaya rezervasyon var mı kontrol et
+            // Check if reservation exists at the same time for the same table
             if (reservationManager.isReservationExists(tableNumber, reservationDate)) {
-                System.out.println("Bu saatte bu masa zaten rezerve edilmiş! Lütfen başka bir saat seçiniz.");
+                System.out.println("This table is already reserved at this time! Please select another time.");
                 return;
             }
             
             int reservationId = reservationManager.createReservation(
                 customer.getCustomerId(), customer.getFullName(), phone, tableNumber, reservationDate);
             
-            // Masa durumunu güncelle (rezerve yap)
+            // Update table status (set as reserved)
             tableManager.updateTableStatus(tableNumber, false, true);
             
-            System.out.println("\nRezervasyon yapıldı!");
-            System.out.println("Rezervasyon ID: " + reservationId);
-            System.out.println("Masa: " + tableNumber);
-            System.out.println("Tarih: " + reservationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            System.out.println("Saat: " + reservationDate.format(DateTimeFormatter.ofPattern("HH:mm")));
+            System.out.println("\nReservation made!");
+            System.out.println("Reservation ID: " + reservationId);
+            System.out.println("Table: " + tableNumber);
+            System.out.println("Date: " + reservationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            System.out.println("Time: " + reservationDate.format(DateTimeFormatter.ofPattern("HH:mm")));
             
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir numara giriniz!");
+            System.out.println("Please enter a valid number!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
     private void cancelReservation() {
         try {
-            System.out.println("\n=== REZERVASYON İPTAL ===");
-            System.out.print("İptal edilecek rezervasyon ID: ");
+            System.out.println("\n=== CANCEL RESERVATION ===");
+            System.out.print("Reservation ID to cancel: ");
             int reservationId = Integer.parseInt(scanner.nextLine().trim());
             
             reservationManager.cancelReservation(reservationId, customer.getCustomerId());
-            System.out.println("Rezervasyon iptal edildi!");
+            System.out.println("Reservation cancelled!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -384,53 +383,53 @@ public class CustomerInterface {
         try {
             String content = DataManager.getAllReservations();
             if (content == null || content.trim().isEmpty()) {
-                System.out.println("\nRezervasyonunuz yok!");
+                System.out.println("\nYou have no reservations!");
                 return;
             }
 
             StringBuilder reservations = new StringBuilder();
-            reservations.append("=== REZERVASYONLARIM ===\n");
+            reservations.append("=== MY RESERVATIONS ===\n");
             
-            StringTokenizer lines = new StringTokenizer(content, "\n");
+            String[] lines = content.split("\n");
             boolean found = false;
             
-            while (lines.hasMoreTokens()) {
-                String line = lines.nextToken().trim();
+            for (String line : lines) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
                 
-                StringTokenizer tokens = new StringTokenizer(line, "|");
-                if (tokens.countTokens() >= 7) {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    int resCustomerId = Integer.parseInt(tokens.nextToken());
+                String[] fields = line.split("\\|", -1);
+                if (fields.length >= 7) {
+                    int id = Integer.parseInt(fields[0]);
+                    int resCustomerId = Integer.parseInt(fields[1]);
                     
-                    // Sadece bu müşteriye ait rezervasyonları göster
+                    // Show only reservations belonging to this customer
                     if (resCustomerId == customer.getCustomerId()) {
-                        String customerName = tokens.nextToken();
-                        String customerPhone = tokens.nextToken();
-                        int tableNumber = Integer.parseInt(tokens.nextToken());
-                        String dateStr = tokens.nextToken();
-                        int numberOfGuests = Integer.parseInt(tokens.nextToken());
-                        boolean isActive = Boolean.parseBoolean(tokens.nextToken());
+                        String customerName = fields[2];
+                        String customerPhone = fields[3];
+                        int tableNumber = Integer.parseInt(fields[4]);
+                        String dateStr = fields[5];
+                        int numberOfGuests = Integer.parseInt(fields[6]);
+                        boolean isActive = Boolean.parseBoolean(fields[7]);
                         
                         if (isActive) {
                             found = true;
                             try {
-                                // Nanosaniye kısmını kaldır
+                                // Remove nanoseconds part
                                 if (dateStr.contains(".")) {
                                     dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                 }
                                 LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                 reservations.append("ID: ").append(id)
-                                          .append(" | Masa: ").append(tableNumber)
-                                          .append(" | Telefon: ").append(customerPhone)
-                                          .append(" | Tarih: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                                          .append(" | Saat: ").append(date.format(DateTimeFormatter.ofPattern("HH:mm")))
-                                          .append(" | Kişi Sayısı: ").append(numberOfGuests)
+                                          .append(" | Table: ").append(tableNumber)
+                                          .append(" | Phone: ").append(customerPhone)
+                                          .append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                                          .append(" | Time: ").append(date.format(DateTimeFormatter.ofPattern("HH:mm")))
+                                          .append(" | Number of Guests: ").append(numberOfGuests)
                                           .append("\n");
                             } catch (Exception e) {
                                 reservations.append("ID: ").append(id)
-                                          .append(" | Masa: ").append(tableNumber)
-                                          .append(" | Tarih: ").append(dateStr)
+                                          .append(" | Table: ").append(tableNumber)
+                                          .append(" | Date: ").append(dateStr)
                                           .append("\n");
                             }
                         }
@@ -439,12 +438,12 @@ public class CustomerInterface {
             }
             
             if (!found) {
-                System.out.println("\nAktif rezervasyonunuz yok!");
+                System.out.println("\nYou have no active reservations!");
             } else {
                 System.out.println("\n" + reservations.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -452,31 +451,31 @@ public class CustomerInterface {
         try {
             String content = DataManager.getAllOrders();
             if (content == null || content.trim().isEmpty()) {
-                System.out.println("\nAktif siparişiniz yok!");
+                System.out.println("\nYou have no active orders!");
                 return;
             }
 
             StringBuilder orders = new StringBuilder();
-            orders.append("=== AKTİF SİPARİŞLERİM ===\n");
+            orders.append("=== MY ACTIVE ORDERS ===\n");
             
-            StringTokenizer lines = new StringTokenizer(content, "\n");
+            String[] lines = content.split("\n");
             boolean found = false;
             
-            while (lines.hasMoreTokens()) {
-                String line = lines.nextToken().trim();
+            for (String line : lines) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
                 
-                StringTokenizer tokens = new StringTokenizer(line, "|");
-                if (tokens.countTokens() >= 7) {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    int cId = Integer.parseInt(tokens.nextToken());
+                String[] fields = line.split("\\|", -1);
+                if (fields.length >= 7) {
+                    int id = Integer.parseInt(fields[0]);
+                    int cId = Integer.parseInt(fields[1]);
                     
                     if (cId == customer.getCustomerId()) {
-                        String customerName = tokens.nextToken();
-                        int tableNumber = Integer.parseInt(tokens.nextToken());
-                        String items = tokens.nextToken();
-                        double totalAmount = Double.parseDouble(tokens.nextToken());
-                        String statusStr = tokens.nextToken();
+                        String customerName = fields[2];
+                        int tableNumber = Integer.parseInt(fields[3]);
+                        String items = fields[4];
+                        double totalAmount = Double.parseDouble(fields[5]);
+                        String statusStr = fields[6];
                         
                         OrderStatus status;
                         try {
@@ -488,24 +487,24 @@ public class CustomerInterface {
                         
                         if (status != OrderStatus.SERVED && status != OrderStatus.CANCELLED) {
                             found = true;
-                            orders.append("Sipariş ID: ").append(id)
-                                  .append(" | Masa: ").append(tableNumber)
-                                  .append(" | Ürünler: ").append(items)
-                                  .append(" | Tutar: ").append(totalAmount).append(" TL")
-                                  .append(" | Durum: ").append(status.getDescription());
+                            orders.append("Order ID: ").append(id)
+                                  .append(" | Table: ").append(tableNumber)
+                                  .append(" | Items: ").append(items)
+                                  .append(" | Amount: ").append(totalAmount).append(" TL")
+                                  .append(" | Status: ").append(status.getDescription());
                             
-                            // Tarih bilgisini oku
-                            if (tokens.hasMoreTokens()) {
-                                String dateStr = tokens.nextToken();
+                            // Read date information
+                            if (fields.length >= 8) {
+                                String dateStr = fields[7];
                                 try {
-                                    // Nanosaniye kısmını kaldır
+                                    // Remove nanoseconds part
                                     if (dateStr.contains(".")) {
                                         dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                     }
                                     LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                                    orders.append(" | Tarih: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                                    orders.append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                                 } catch (Exception e) {
-                                    // Parse edilemezse tarih gösterme
+                                    // Don't show date if parsing fails
                                 }
                             }
                             orders.append("\n");
@@ -515,12 +514,12 @@ public class CustomerInterface {
             }
             
             if (!found) {
-                System.out.println("\nAktif siparişiniz yok!");
+                System.out.println("\nYou have no active orders!");
             } else {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -528,31 +527,31 @@ public class CustomerInterface {
         try {
             String content = DataManager.getAllOrders();
             if (content == null || content.trim().isEmpty()) {
-                System.out.println("\nSipariş geçmişiniz yok!");
+                System.out.println("\nYou have no order history!");
                 return;
             }
 
             StringBuilder orders = new StringBuilder();
-            orders.append("=== GEÇMİŞ SİPARİŞLERİM ===\n");
+            orders.append("=== MY ORDER HISTORY ===\n");
             
-            StringTokenizer lines = new StringTokenizer(content, "\n");
+            String[] lines = content.split("\n");
             boolean found = false;
             
-            while (lines.hasMoreTokens()) {
-                String line = lines.nextToken().trim();
+            for (String line : lines) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
                 
-                StringTokenizer tokens = new StringTokenizer(line, "|");
-                if (tokens.countTokens() >= 7) {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    int cId = Integer.parseInt(tokens.nextToken());
+                String[] fields = line.split("\\|", -1);
+                if (fields.length >= 7) {
+                    int id = Integer.parseInt(fields[0]);
+                    int cId = Integer.parseInt(fields[1]);
                     
                     if (cId == customer.getCustomerId()) {
-                        String customerName = tokens.nextToken();
-                        int tableNumber = Integer.parseInt(tokens.nextToken());
-                        String items = tokens.nextToken();
-                        double totalAmount = Double.parseDouble(tokens.nextToken());
-                        String statusStr = tokens.nextToken();
+                        String customerName = fields[2];
+                        int tableNumber = Integer.parseInt(fields[3]);
+                        String items = fields[4];
+                        double totalAmount = Double.parseDouble(fields[5]);
+                        String statusStr = fields[6];
                         
                         OrderStatus status;
                         try {
@@ -562,27 +561,27 @@ public class CustomerInterface {
                             continue;
                         }
                         
-                        // Sadece SERVED veya CANCELLED olanları göster
+                        // Show only SERVED or CANCELLED orders
                         if (status == OrderStatus.SERVED || status == OrderStatus.CANCELLED) {
                             found = true;
-                            orders.append("Sipariş ID: ").append(id)
-                                  .append(" | Masa: ").append(tableNumber)
-                                  .append(" | Ürünler: ").append(items)
-                                  .append(" | Tutar: ").append(totalAmount).append(" TL")
-                                  .append(" | Durum: ").append(status.getDescription());
+                            orders.append("Order ID: ").append(id)
+                                  .append(" | Table: ").append(tableNumber)
+                                  .append(" | Items: ").append(items)
+                                  .append(" | Amount: ").append(totalAmount).append(" TL")
+                                  .append(" | Status: ").append(status.getDescription());
                             
-                            // Tarih bilgisini oku
-                            if (tokens.hasMoreTokens()) {
-                                String dateStr = tokens.nextToken();
+                            // Read date information
+                            if (fields.length >= 8) {
+                                String dateStr = fields[7];
                                 try {
-                                    // Nanosaniye kısmını kaldır
+                                    // Remove nanoseconds part
                                     if (dateStr.contains(".")) {
                                         dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                     }
                                     LocalDateTime date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                                    orders.append(" | Tarih: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                                    orders.append(" | Date: ").append(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                                 } catch (Exception e) {
-                                    // Parse edilemezse tarih gösterme
+                                    // Don't show date if parsing fails
                                 }
                             }
                             orders.append("\n");
@@ -592,12 +591,12 @@ public class CustomerInterface {
             }
             
             if (!found) {
-                System.out.println("\nSipariş geçmişiniz yok!");
+                System.out.println("\nYou have no order history!");
             } else {
                 System.out.println("\n" + orders.toString());
             }
         } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

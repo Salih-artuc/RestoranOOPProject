@@ -5,11 +5,10 @@ import com.restoran.exception.InvalidInputException;
 import com.restoran.exception.NotFoundException;
 import com.restoran.model.*;
 import com.restoran.data.DataManager;
-import java.util.StringTokenizer;
 
 /**
- * Menü yönetimi servisi
- * Interface implementasyonu
+ * Menu management service
+ * Interface implementation
  */
 public class MenuManager implements IMenuService {
     private int nextItemId = 1;
@@ -22,16 +21,15 @@ public class MenuManager implements IMenuService {
         try {
             String content = DataManager.getAllMenuItems();
             if (!content.isEmpty()) {
-                StringTokenizer lines = new StringTokenizer(content, "\n");
+                String[] lines = content.split("\n");
                 int maxId = 0;
-                while (lines.hasMoreTokens()) {
-                    String line = lines.nextToken().trim();
+                for (String line : lines) {
+                    line = line.trim();
                     if (line.isEmpty()) continue;
-                    StringTokenizer tokens = new StringTokenizer(line, "|");
-                    if (tokens.countTokens() >= 2) {
-                        tokens.nextToken(); // type
+                    String[] fields = line.split("\\|", -1);
+                    if (fields.length >= 2) {
                         try {
-                            int id = Integer.parseInt(tokens.nextToken());
+                            int id = Integer.parseInt(fields[1]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
                             // Ignore
@@ -41,7 +39,7 @@ public class MenuManager implements IMenuService {
                 nextItemId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // İlk kullanım, nextItemId = 1 kalır
+            // First usage, nextItemId remains 1
         }
     }
 
@@ -79,13 +77,13 @@ public class MenuManager implements IMenuService {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            // Satırı | karakterine göre böl
+            // Split line by | character
             String[] parts = line.split("\\|", -1);
             
             if (parts.length >= 6) {
@@ -93,14 +91,14 @@ public class MenuManager implements IMenuService {
                     int id = Integer.parseInt(parts[1].trim());
                     
                     if (id == itemId) {
-                        // Silinecek ürünü atla
+                        // Skip product to be deleted
                         found = true;
                     } else if (id > itemId) {
-                        // Silinen ürünün ID'sinden sonraki ürünlerin ID'sini 1 azalt
+                        // Decrease ID of products after deleted product by 1
                         int newId = id - 1;
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(parts[0]).append("|") // type
-                               .append(newId).append("|") // yeni ID
+                               .append(newId).append("|") // new ID
                                .append(parts[2]).append("|") // name
                                .append(parts[3]).append("|") // price
                                .append(parts[4]).append("|") // description
@@ -113,7 +111,7 @@ public class MenuManager implements IMenuService {
                         
                         newContent.append(newLine.toString()).append("\n");
                     } else {
-                        // Silinen ürünün ID'sinden önceki ürünler, olduğu gibi ekle
+                        // Products before deleted product, add as is
                         newContent.append(line).append("\n");
                     }
                 } catch (NumberFormatException e) {
@@ -130,7 +128,7 @@ public class MenuManager implements IMenuService {
         
         DataManager.updateMenuFile(newContent.toString());
         
-        // nextItemId'yi güncelle (silinen ürün varsa 1 azalt)
+        // Update nextItemId (decrease by 1 if product was deleted)
         if (nextItemId > 1) {
             nextItemId--;
         }
@@ -149,20 +147,20 @@ public class MenuManager implements IMenuService {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            // Satırı | karakterine göre böl
+            // Split line by | character
             String[] parts = line.split("\\|", -1);
             
             if (parts.length >= 6) {
                 try {
                     int id = Integer.parseInt(parts[1].trim());
                     if (id == itemId) {
-                        // Ürün bulundu, fiyatı güncelle
+                        // Product found, update price
                         // Format: type|id|name|price|description|isActive|category/dessertType
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(parts[0]).append("|") // type
@@ -180,7 +178,7 @@ public class MenuManager implements IMenuService {
                         newContent.append(newLine.toString()).append("\n");
                         found = true;
                     } else {
-                        // Farklı ürün, olduğu gibi ekle
+                        // Different product, add as is
                         newContent.append(line).append("\n");
                     }
                 } catch (NumberFormatException e) {
@@ -201,35 +199,35 @@ public class MenuManager implements IMenuService {
     public String displayMenu() throws FileOperationException {
         String content = DataManager.getAllMenuItems();
         if (content.isEmpty()) {
-            return "Menü boş!";
+            return "Menu is empty!";
         }
 
         StringBuilder menu = new StringBuilder();
-        menu.append("=== MENÜ ===\n");
+        menu.append("=== MENU ===\n");
         
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                String type = tokens.nextToken();
-                int id = Integer.parseInt(tokens.nextToken());
-                String name = tokens.nextToken();
-                double price = Double.parseDouble(tokens.nextToken());
-                String description = tokens.nextToken();
-                boolean isActive = Boolean.parseBoolean(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                String type = fields[0];
+                int id = Integer.parseInt(fields[1]);
+                String name = fields[2];
+                double price = Double.parseDouble(fields[3]);
+                String description = fields[4];
+                boolean isActive = Boolean.parseBoolean(fields[5]);
                 
                 if (isActive) {
                     menu.append("ID: ").append(id)
                         .append(" | Tip: ").append(type)
                         .append(" | Ad: ").append(name)
                         .append(" | Fiyat: ").append(price).append(" TL")
-                        .append(" | Açıklama: ").append(description);
+                        .append(" | Description: ").append(description);
                     
-                    if (tokens.hasMoreTokens()) {
-                        menu.append(" | ").append(tokens.nextToken());
+                    if (fields.length >= 7) {
+                        menu.append(" | ").append(fields[6]);
                     }
                     menu.append("\n");
                 }

@@ -5,23 +5,23 @@ import com.restoran.model.*;
 import com.restoran.data.DataManager;
 
 /**
- * Başlangıç verilerini oluşturan sınıf
+ * Class that creates initial data
  */
 public class DataInitializer {
     
     public static void initializeData() {
         try {
-            // İşletme hesabı oluştur
+            // Create business account
             if (!FileHandler.fileExists("business.txt")) {
                 Business business = new Business("Ahmet", "Yılmaz", "restoran", "1234", 
                                                 "Lezzet Restoran", "İstanbul, Kadıköy");
                 DataManager.saveBusiness(business);
-                System.out.println("İşletme hesabı oluşturuldu: restoran / 1234");
+                System.out.println("Business account created: restoran / 1234");
             }
 
-            // Menü oluştur
+            // Create menu
             if (!FileHandler.fileExists("menu.txt")) {
-                // Yemekler
+                // Foods
                 Food food1 = new Food(1, "Adana Kebap", 120.0, "Acılı kıyma kebabı", "Ana Yemek");
                 Food food2 = new Food(2, "Urfa Kebap", 120.0, "Acısız kıyma kebabı", "Ana Yemek");
                 Food food3 = new Food(3, "Döner", 100.0, "Tavuk döner", "Ana Yemek");
@@ -33,7 +33,7 @@ public class DataInitializer {
                 Food food9 = new Food(9, "Mevsim Salatası", 35.0, "Karışık salata", "Salata");
                 Food food10 = new Food(10, "Izgara Köfte", 110.0, "El yapımı köfte", "Ana Yemek");
 
-                // Tatlılar
+                // Desserts
                 Dessert dessert1 = new Dessert(11, "Baklava", 80.0, "Cevizli baklava", "Şerbetli");
                 Dessert dessert2 = new Dessert(12, "Sütlaç", 35.0, "Sıcak sütlaç", "Sütlü");
                 Dessert dessert3 = new Dessert(13, "Künefe", 90.0, "Sıcak künefe", "Şerbetli");
@@ -56,10 +56,10 @@ public class DataInitializer {
                 DataManager.saveMenuItem(dessert4);
                 DataManager.saveMenuItem(dessert5);
 
-                System.out.println("Menü oluşturuldu (15 ürün)");
+                System.out.println("Menu created (15 items)");
             }
 
-            // Masalar oluştur
+            // Create tables
             if (!FileHandler.fileExists("tables.txt")) {
                 Table table1 = new Table(1, 4);
                 Table table2 = new Table(2, 4);
@@ -79,10 +79,10 @@ public class DataInitializer {
                 DataManager.saveTable(table7);
                 DataManager.saveTable(table8);
 
-                System.out.println("Masalar oluşturuldu (8 masa)");
+                System.out.println("Tables created (8 tables)");
             }
 
-            // Garsonlar oluştur
+            // Create waiters
             if (!FileHandler.fileExists("waiters.txt")) {
                 Waiter waiter1 = new Waiter(1, "Mehmet", "Demir", "05551234567");
                 Waiter waiter2 = new Waiter(2, "Ayşe", "Kaya", "05559876543");
@@ -92,11 +92,11 @@ public class DataInitializer {
                 DataManager.saveWaiter(waiter2);
                 DataManager.saveWaiter(waiter3);
 
-                System.out.println("Garsonlar oluşturuldu (3 garson)");
+                System.out.println("Waiters created (3 waiters)");
             }
 
         } catch (FileOperationException e) {
-            System.err.println("Veri oluşturma hatası: " + e.getMessage());
+            System.err.println("Data creation error: " + e.getMessage());
         }
     }
 }

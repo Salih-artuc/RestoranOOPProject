@@ -7,7 +7,6 @@ import com.restoran.model.Reservation;
 import com.restoran.data.DataManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.StringTokenizer;
 
 /**
  * Reservation management service
@@ -23,15 +22,15 @@ public class ReservationManager {
         try {
             String content = DataManager.getAllReservations();
             if (!content.isEmpty()) {
-                StringTokenizer lines = new StringTokenizer(content, "\n");
+                String[] lines = content.split("\n");
                 int maxId = 0;
-                while (lines.hasMoreTokens()) {
-                    String line = lines.nextToken().trim();
+                for (String line : lines) {
+                    line = line.trim();
                     if (line.isEmpty()) continue;
-                    StringTokenizer tokens = new StringTokenizer(line, "|");
-                    if (tokens.hasMoreTokens()) {
+                    String[] fields = line.split("\\|", -1);
+                    if (fields.length > 0) {
                         try {
-                            int id = Integer.parseInt(tokens.nextToken());
+                            int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
                             // Ignore
@@ -70,28 +69,28 @@ public class ReservationManager {
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
         int tableNumber = -1;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 7) {
-                int id = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 7) {
+                int id = Integer.parseInt(fields[0]);
                 if (id == reservationId) {
                     // Customer Id check (customerId -1 ise kontrol yapma - işletme için)
-                    int resCustomerId = Integer.parseInt(tokens.nextToken());
+                    int resCustomerId = Integer.parseInt(fields[1]);
                     if (customerId != -1 && resCustomerId != customerId) {
                         throw new NotFoundException("This reservation doesn't belong to you!");
                     }
                     
                     // Cancel reservation (isActive = false yap)
-                    String customerName = tokens.nextToken(); // customerName
-                    String customerPhone = tokens.nextToken(); // customerPhone
-                    tableNumber = Integer.parseInt(tokens.nextToken()); // tableNumber
-                    String reservationDate = tokens.nextToken(); // reservationDate
-                    String numberOfGuests = tokens.nextToken(); // numberOfGuests
+                    String customerName = fields[2]; // customerName
+                    String customerPhone = fields[3]; // customerPhone
+                    tableNumber = Integer.parseInt(fields[4]); // tableNumber
+                    String reservationDate = fields[5]; // reservationDate
+                    String numberOfGuests = fields[6]; // numberOfGuests
                     
                     // Create new line
                     StringBuilder newLine = new StringBuilder();
@@ -140,21 +139,20 @@ public class ReservationManager {
         StringBuilder reservations = new StringBuilder();
         reservations.append("=== RESERVATIONS ===\n");
         
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 7) {
-                int id = Integer.parseInt(tokens.nextToken());
-                tokens.nextToken(); // customerId (atla)
-                String customerName = tokens.nextToken();
-                String customerPhone = tokens.nextToken();
-                int tableNumber = Integer.parseInt(tokens.nextToken());
-                String dateStr = tokens.nextToken();
-                int numberOfGuests = Integer.parseInt(tokens.nextToken());
-                boolean isActive = Boolean.parseBoolean(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 7) {
+                int id = Integer.parseInt(fields[0]);
+                String customerName = fields[2];
+                String customerPhone = fields[3];
+                int tableNumber = Integer.parseInt(fields[4]);
+                String dateStr = fields[5];
+                int numberOfGuests = Integer.parseInt(fields[6]);
+                boolean isActive = Boolean.parseBoolean(fields[7]);
                 
                 if (isActive) {
                     try {
@@ -187,21 +185,16 @@ public class ReservationManager {
             return false;
         }
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 7) {
-                tokens.nextToken(); // id
-                tokens.nextToken(); // customerId
-                tokens.nextToken(); // customerName
-                tokens.nextToken(); // customerPhone
-                int tNumber = Integer.parseInt(tokens.nextToken());
-                String dateStr = tokens.nextToken();
-                tokens.nextToken(); // numberOfGuests
-                boolean isActive = Boolean.parseBoolean(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 7) {
+                int tNumber = Integer.parseInt(fields[4]);
+                String dateStr = fields[5];
+                boolean isActive = Boolean.parseBoolean(fields[7]);
                 
                 if (isActive && tNumber == tableNumber) {
                     try {

@@ -4,11 +4,10 @@ import com.restoran.exception.FileOperationException;
 import com.restoran.model.*;
 import com.restoran.util.FileHandler;
 import java.time.format.DateTimeFormatter;
-import java.util.StringTokenizer;
 
 /**
- * Veri yönetimi için sınıf
- * ArrayList kullanmadan String ve StringBuilder ile çalışır
+ * Class for data management
+ * Works with String and StringBuilder without using ArrayList
  */
 public class DataManager {
     private static final String BUSINESS_FILE = "business.txt";
@@ -35,19 +34,19 @@ public class DataManager {
         String content = FileHandler.readFromFile(BUSINESS_FILE);
         if (content.isEmpty()) return null;
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 6) {
-                String name = tokens.nextToken();
-                String surname = tokens.nextToken();
-                String uname = tokens.nextToken();
-                String pwd = tokens.nextToken();
-                String businessName = tokens.nextToken();
-                String address = tokens.nextToken();
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 6) {
+                String name = fields[0];
+                String surname = fields[1];
+                String uname = fields[2];
+                String pwd = fields[3];
+                String businessName = fields[4];
+                String address = fields[5];
                 
                 if (uname.equals(username) && pwd.equals(password)) {
                     return new Business(name, surname, uname, pwd, businessName, address);
@@ -182,18 +181,18 @@ public class DataManager {
         String content = FileHandler.readFromFile(CUSTOMERS_FILE);
         if (content.isEmpty()) return null;
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                int customerId = Integer.parseInt(tokens.nextToken());
-                String name = tokens.nextToken();
-                String surname = tokens.nextToken();
-                String uname = tokens.nextToken();
-                String pwd = tokens.nextToken();
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                int customerId = Integer.parseInt(fields[0]);
+                String name = fields[1];
+                String surname = fields[2];
+                String uname = fields[3];
+                String pwd = fields[4];
                 
                 if (uname.equals(username) && pwd.equals(password)) {
                     return new Customer(name, surname, uname, pwd, customerId);
@@ -207,17 +206,14 @@ public class DataManager {
         String content = FileHandler.readFromFile(CUSTOMERS_FILE);
         if (content.isEmpty()) return false;
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 5) {
-                tokens.nextToken(); // customerId
-                tokens.nextToken(); // name
-                tokens.nextToken(); // surname
-                String uname = tokens.nextToken();
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 5) {
+                String uname = fields[3];
                 
                 if (uname.equals(username)) {
                     return true;
@@ -232,15 +228,15 @@ public class DataManager {
         if (content.isEmpty()) return 1;
 
         int maxId = 0;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.hasMoreTokens()) {
+            String[] fields = line.split("\\|", -1);
+            if (fields.length > 0) {
                 try {
-                    int id = Integer.parseInt(tokens.nextToken());
+                    int id = Integer.parseInt(fields[0]);
                     if (id > maxId) maxId = id;
                 } catch (NumberFormatException e) {
                     // Ignore

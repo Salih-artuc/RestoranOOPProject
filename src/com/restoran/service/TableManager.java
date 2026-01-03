@@ -4,7 +4,6 @@ import com.restoran.exception.FileOperationException;
 import com.restoran.exception.NotFoundException;
 import com.restoran.model.Table;
 import com.restoran.data.DataManager;
-import java.util.StringTokenizer;
 
 /**
  * Table management service
@@ -18,23 +17,23 @@ public class TableManager {
     public String getAllTables() throws FileOperationException {
         String content = DataManager.getAllTables();
         if (content.isEmpty()) {
-            return "Masa bilgisi yok!";
+            return "No table information!";
         }
 
         StringBuilder tables = new StringBuilder();
         tables.append("=== TABLES ===\n");
         
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 4) {
-                int tableNumber = Integer.parseInt(tokens.nextToken());
-                int capacity = Integer.parseInt(tokens.nextToken());
-                boolean isOccupied = Boolean.parseBoolean(tokens.nextToken());
-                boolean isReserved = Boolean.parseBoolean(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 4) {
+                int tableNumber = Integer.parseInt(fields[0]);
+                int capacity = Integer.parseInt(fields[1]);
+                boolean isOccupied = Boolean.parseBoolean(fields[2]);
+                boolean isReserved = Boolean.parseBoolean(fields[3]);
                 
                 tables.append("Table No: ").append(tableNumber)
                       .append(" | Capacity: ").append(capacity)
@@ -63,17 +62,17 @@ public class TableManager {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 4) {
-                int tNumber = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 4) {
+                int tNumber = Integer.parseInt(fields[0]);
                 if (tNumber == tableNumber) {
-                    int capacity = Integer.parseInt(tokens.nextToken());
+                    int capacity = Integer.parseInt(fields[1]);
                     newContent.append(tNumber).append("|")
                               .append(capacity).append("|")
                               .append(isOccupied).append("|")
@@ -100,18 +99,17 @@ public class TableManager {
             return false;
         }
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 4) {
-                int tNumber = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 4) {
+                int tNumber = Integer.parseInt(fields[0]);
                 if (tNumber == tableNumber) {
-                    tokens.nextToken(); // capacity
-                    boolean isOccupied = Boolean.parseBoolean(tokens.nextToken());
-                    boolean isReserved = Boolean.parseBoolean(tokens.nextToken());
+                    boolean isOccupied = Boolean.parseBoolean(fields[2]);
+                    boolean isReserved = Boolean.parseBoolean(fields[3]);
                     return !isOccupied && !isReserved;
                 }
             }
@@ -126,14 +124,14 @@ public class TableManager {
         }
 
         int maxTableNumber = 0;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 4) {
-                int tableNumber = Integer.parseInt(tokens.nextToken());
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 4) {
+                int tableNumber = Integer.parseInt(fields[0]);
                 if (tableNumber > maxTableNumber) {
                     maxTableNumber = tableNumber;
                 }

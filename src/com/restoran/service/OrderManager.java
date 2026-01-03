@@ -4,11 +4,10 @@ import com.restoran.exception.FileOperationException;
 import com.restoran.exception.NotFoundException;
 import com.restoran.model.*;
 import com.restoran.data.DataManager;
-import java.util.StringTokenizer;
 
 /**
- * Sipariş yönetimi servisi
- * Interface implementasyonu
+ * Order management service
+ * Interface implementation
  */
 public class OrderManager implements IOrderService {
     private int nextOrderId = 1;
@@ -21,15 +20,15 @@ public class OrderManager implements IOrderService {
         try {
             String content = DataManager.getAllOrders();
             if (!content.isEmpty()) {
-                StringTokenizer lines = new StringTokenizer(content, "\n");
+                String[] lines = content.split("\n");
                 int maxId = 0;
-                while (lines.hasMoreTokens()) {
-                    String line = lines.nextToken().trim();
+                for (String line : lines) {
+                    line = line.trim();
                     if (line.isEmpty()) continue;
-                    StringTokenizer tokens = new StringTokenizer(line, "|");
-                    if (tokens.hasMoreTokens()) {
+                    String[] fields = line.split("\\|", -1);
+                    if (fields.length > 0) {
                         try {
-                            int id = Integer.parseInt(tokens.nextToken());
+                            int id = Integer.parseInt(fields[0]);
                             if (id > maxId) maxId = id;
                         } catch (NumberFormatException e) {
                             // Ignore
@@ -39,7 +38,7 @@ public class OrderManager implements IOrderService {
                 nextOrderId = maxId + 1;
             }
         } catch (FileOperationException e) {
-            // İlk kullanım
+            // First usage
         }
     }
 
@@ -59,26 +58,26 @@ public class OrderManager implements IOrderService {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 9) {
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 9) {
                 try {
-                    int id = Integer.parseInt(tokens.nextToken());
+                    int id = Integer.parseInt(fields[0]);
                     if (id == orderId) {
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(id).append("|")
-                               .append(tokens.nextToken()).append("|") // customerId
-                               .append(tokens.nextToken()).append("|") // customerName
-                               .append(tokens.nextToken()).append("|") // tableNumber
-                               .append(tokens.nextToken()).append("|") // items
-                               .append(tokens.nextToken()).append("|") // totalAmount
-                               .append(tokens.nextToken()).append("|") // status
-                               .append(tokens.nextToken()).append("|") // orderDate
+                               .append(fields[1]).append("|") // customerId
+                               .append(fields[2]).append("|") // customerName
+                               .append(fields[3]).append("|") // tableNumber
+                               .append(fields[4]).append("|") // items
+                               .append(fields[5]).append("|") // totalAmount
+                               .append(fields[6]).append("|") // status
+                               .append(fields[7]).append("|") // orderDate
                                .append(waiterId).append("|")
                                .append(waiterName);
                         
@@ -111,29 +110,29 @@ public class OrderManager implements IOrderService {
 
         StringBuilder newContent = new StringBuilder();
         boolean found = false;
-        StringTokenizer lines = new StringTokenizer(content, "\n");
+        String[] lines = content.split("\n");
         
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 7) {
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 7) {
                 try {
-                    int id = Integer.parseInt(tokens.nextToken());
+                    int id = Integer.parseInt(fields[0]);
                     if (id == orderId) {
                         StringBuilder newLine = new StringBuilder();
                         newLine.append(id).append("|")
-                               .append(tokens.nextToken()).append("|") // customerId
-                               .append(tokens.nextToken()).append("|") // customerName
-                               .append(tokens.nextToken()).append("|") // tableNumber
-                               .append(tokens.nextToken()).append("|") // items
-                               .append(tokens.nextToken()).append("|") // totalAmount
+                               .append(fields[1]).append("|") // customerId
+                               .append(fields[2]).append("|") // customerName
+                               .append(fields[3]).append("|") // tableNumber
+                               .append(fields[4]).append("|") // items
+                               .append(fields[5]).append("|") // totalAmount
                                .append(newStatus.name()).append("|");
                         
-                        // Kalan tokenları ekle
-                        while (tokens.hasMoreTokens()) {
-                            newLine.append("|").append(tokens.nextToken());
+                        // Add remaining fields
+                        for (int i = 7; i < fields.length; i++) {
+                            newLine.append("|").append(fields[i]);
                         }
                         
                         newContent.append(newLine.toString()).append("\n");
@@ -162,19 +161,17 @@ public class OrderManager implements IOrderService {
             throw new NotFoundException("Order not found!");
         }
 
-        StringTokenizer lines = new StringTokenizer(content, "\n");
-        while (lines.hasMoreTokens()) {
-            String line = lines.nextToken().trim();
+        String[] lines = content.split("\n");
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty()) continue;
             
-            StringTokenizer tokens = new StringTokenizer(line, "|");
-            if (tokens.countTokens() >= 7) {
+            String[] fields = line.split("\\|", -1);
+            if (fields.length >= 7) {
                 try {
-                    int id = Integer.parseInt(tokens.nextToken());
+                    int id = Integer.parseInt(fields[0]);
                     if (id == orderId) {
-                        tokens.nextToken(); // customerId
-                        tokens.nextToken(); // customerName
-                        int tableNumber = Integer.parseInt(tokens.nextToken()); // tableNumber
+                        int tableNumber = Integer.parseInt(fields[3]); // tableNumber
                         return tableNumber;
                     }
                 } catch (NumberFormatException e) {

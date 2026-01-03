@@ -6,20 +6,20 @@ import com.restoran.service.LoginService;
 import java.util.Scanner;
 
 /**
- * Ana uygulama sınıfı
- * Inner class kullanımı için
+ * Main application class
+ * Uses inner class
  */
 public class RestaurantApp {
     private Scanner scanner;
     private LoginService loginService;
 
-    // Inner class - Uygulama yapılandırması
+    // Inner class - Application configuration
     public class AppConfig {
         private String appName;
         private String version;
 
         public AppConfig() {
-            this.appName = "Restoran Yönetim Sistemi";
+            this.appName = "Restaurant Management System";
             this.version = "1.0";
         }
 
@@ -33,7 +33,7 @@ public class RestaurantApp {
 
         public void displayWelcome() {
             System.out.println("=== " + appName + " ===");
-            System.out.println("Versiyon: " + version);
+            System.out.println("Version: " + version);
         }
     }
 
@@ -47,11 +47,11 @@ public class RestaurantApp {
         config.displayWelcome();
 
         while (true) {
-            System.out.println("\n=== GİRİŞ ===");
-            System.out.println("1. Müşteri");
-            System.out.println("2. İşletme");
-            System.out.println("0. Çıkış");
-            System.out.print("Seçiminiz: ");
+            System.out.println("\n=== LOGIN ===");
+            System.out.println("1. Customer");
+            System.out.println("2. Business");
+            System.out.println("0. Exit");
+            System.out.print("Your choice: ");
 
             String choice = scanner.nextLine().trim();
 
@@ -65,23 +65,23 @@ public class RestaurantApp {
                         handleBusinessLogin();
                         break;
                     case "0":
-                        System.out.println("Çıkış yapılıyor...");
+                        System.out.println("Logging out...");
                         return;
                     default:
-                        System.out.println("Geçersiz seçim!");
+                        System.out.println("Invalid choice!");
                 }
             } catch (Exception e) {
-                System.out.println("Hata: " + e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
 
     private void handleBusinessLogin() {
         try {
-            System.out.println("\n=== İŞLETME GİRİŞİ ===");
-            System.out.print("Kullanıcı adı: ");
+            System.out.println("\n=== BUSINESS LOGIN ===");
+            System.out.print("Username: ");
             String username = scanner.nextLine().trim();
-            System.out.print("Şifre: ");
+            System.out.print("Password: ");
             String password = scanner.nextLine().trim();
 
             Business business = loginService.loginBusiness(username, password);
@@ -91,11 +91,11 @@ public class RestaurantApp {
                 businessInterface.start();
             }
         } catch (InvalidInputException e) {
-            System.out.println("Hata: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         } catch (FileOperationException e) {
-            System.out.println("Dosya hatası: " + e.getMessage());
+            System.out.println("File error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Beklenmeyen hata: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 }

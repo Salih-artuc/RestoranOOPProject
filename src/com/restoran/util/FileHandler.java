@@ -16,7 +16,7 @@ public class FileHandler {
         try {
             Files.createDirectories(Paths.get(DATA_DIR));
         } catch (IOException e) {
-            System.err.println("Data klasörü oluşturulamadı: " + e.getMessage());
+            System.err.println("Data folder could not be created: " + e.getMessage());
         }
     }
 

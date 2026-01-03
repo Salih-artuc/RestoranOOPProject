@@ -4,15 +4,15 @@ import com.restoran.ui.RestaurantApp;
 import com.restoran.util.DataInitializer;
 
 /**
- * Ana sınıf - Uygulama giriş noktası
+ * Main class - Application entry point
  */
 public class Main {
     public static void main(String[] args) {
-        // Başlangıç verilerini oluştur
-        System.out.println("Sistem başlatılıyor...");
+        // Create initial data
+        System.out.println("Starting system...");
         System.out.println("Ya Allah Bismillah");
         DataInitializer.initializeData();
-        System.out.println("Sistem hazır!\n");
+        System.out.println("System ready!\n");
         
         RestaurantApp app = new RestaurantApp();
         app.start();

@@ -5,7 +5,7 @@ import com.restoran.service.*;
 import java.util.Scanner;
 
 /**
- * İşletme arayüzü
+ * Business interface
  */
 public class BusinessInterface {
     private Scanner scanner;
@@ -27,32 +27,32 @@ public class BusinessInterface {
     }
 
     public void start() {
-        System.out.println("\n=== İŞLETME PANELİ ===");
-        System.out.println("Hoş geldiniz " + business.getBusinessName() + "!");
-        System.out.println("Yönetici: " + business.getFullName());
+        System.out.println("\n=== BUSINESS PANEL ===");
+        System.out.println("Welcome " + business.getBusinessName() + "!");
+        System.out.println("Manager: " + business.getFullName());
         
         showMenu();
     }
 
     private void showMenu() {
         while (true) {
-            System.out.println("\n=== İŞLETME MENÜSÜ ===");
-            System.out.println("1. Menü");
-            System.out.println("2. Ürün Ekleme");
-            System.out.println("3. Ürün Silme");
-            System.out.println("4. Fiyat Değiştirme");
-            System.out.println("5. Aktif Siparişler");
-            System.out.println("6. Geçmiş Siparişler");
-            System.out.println("7. Sipariş Durumu Güncelleme");
-            System.out.println("8. Masa Bilgileri");
-            System.out.println("9. Rezervasyonlar");
-            System.out.println("10. Rezervasyon İptal");
-            System.out.println("11. Garson Atama");
-            System.out.println("12. Garson Ekleme");
-            System.out.println("13. Garson Çıkarma");
-            System.out.println("14. Masa Ekleme");
-            System.out.println("0. Çıkış");
-            System.out.print("Seçiminiz: ");
+            System.out.println("\n=== BUSINESS MENU ===");
+            System.out.println("1. Menu");
+            System.out.println("2. Add Product");
+            System.out.println("3. Delete Product");
+            System.out.println("4. Update Price");
+            System.out.println("5. Active Orders");
+            System.out.println("6. Order History");
+            System.out.println("7. Update Order Status");
+            System.out.println("8. Table Information");
+            System.out.println("9. Reservations");
+            System.out.println("10. Cancel Reservation");
+            System.out.println("11. Assign Waiter");
+            System.out.println("12. Add Waiter");
+            System.out.println("13. Remove Waiter");
+            System.out.println("14. Add Table");
+            System.out.println("0. Exit");
+            System.out.print("Your choice: ");
             
             String choice = scanner.nextLine().trim();
             
@@ -101,10 +101,10 @@ public class BusinessInterface {
                         addTable();
                         break;
                     case "0":
-                        System.out.println("Çıkış yapılıyor...");
+                        System.out.println("Logging out...");
                         return;
                     default:
-                        System.out.println("Geçersiz seçim!");
+                        System.out.println("Invalid choice!");
                 }
             } catch (Exception e) {
                 System.out.println("Hata: " + e.getMessage());
@@ -122,34 +122,34 @@ public class BusinessInterface {
 
     private void addProduct() {
         try {
-            System.out.println("\n=== ÜRÜN EKLEME ===");
-            System.out.println("1. Yemek");
-            System.out.println("2. Tatlı");
-            System.out.print("Seçiminiz: ");
+            System.out.println("\n=== ADD PRODUCT ===");
+            System.out.println("1. Food");
+            System.out.println("2. Dessert");
+            System.out.print("Your choice: ");
             String type = scanner.nextLine().trim();
             
-            System.out.print("Ürün adı: ");
+            System.out.print("Product name: ");
             String name = scanner.nextLine().trim();
-            System.out.print("Fiyat: ");
+            System.out.print("Price: ");
             double price = Double.parseDouble(scanner.nextLine().trim());
-            System.out.print("Açıklama: ");
+            System.out.print("Description: ");
             String description = scanner.nextLine().trim();
             
             if (type.equals("1")) {
-                System.out.print("Kategori (Ana yemek, Çorba, Salata vb.): ");
+                System.out.print("Category (Main dish, Soup, Salad, etc.): ");
                 String category = scanner.nextLine().trim();
                 menuManager.addFood(name, price, description, category);
-                System.out.println("Yemek eklendi!");
+                System.out.println("Food added!");
             } else if (type.equals("2")) {
-                System.out.print("Tatlı tipi (Sütlü, Şerbetli, Dondurma vb.): ");
+                System.out.print("Dessert type (Milk-based, Syrupy, Ice cream, etc.): ");
                 String dessertType = scanner.nextLine().trim();
                 menuManager.addDessert(name, price, description, dessertType);
-                System.out.println("Tatlı eklendi!");
+                System.out.println("Dessert added!");
             } else {
-                System.out.println("Geçersiz seçim!");
+                System.out.println("Invalid choice!");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir fiyat giriniz!");
+            System.out.println("Please enter a valid price!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -157,14 +157,14 @@ public class BusinessInterface {
 
     private void deleteProduct() {
         try {
-            System.out.println("\n=== ÜRÜN SİLME ===");
+            System.out.println("\n=== DELETE PRODUCT ===");
             System.out.println(menuManager.displayMenu());
-            System.out.print("Silinecek ürün ID'si: ");
+            System.out.print("Product ID to delete: ");
             int itemId = Integer.parseInt(scanner.nextLine().trim());
             menuManager.deleteItem(itemId);
-            System.out.println("Ürün silindi!");
+            System.out.println("Product deleted!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -172,16 +172,16 @@ public class BusinessInterface {
 
     private void updatePrice() {
         try {
-            System.out.println("\n=== FİYAT DEĞİŞTİRME ===");
+            System.out.println("\n=== UPDATE PRICE ===");
             System.out.println(menuManager.displayMenu());
-            System.out.print("Fiyatı değiştirilecek ürün ID'si: ");
+            System.out.print("Product ID to update price: ");
             int itemId = Integer.parseInt(scanner.nextLine().trim());
-            System.out.print("Yeni fiyat: ");
+            System.out.print("New price: ");
             double newPrice = Double.parseDouble(scanner.nextLine().trim());
             menuManager.updatePrice(itemId, newPrice);
-            System.out.println("Fiyat güncellendi!");
+            System.out.println("Price updated!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir numara giriniz!");
+            System.out.println("Please enter a valid number!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -191,29 +191,29 @@ public class BusinessInterface {
         try {
             String content = com.restoran.data.DataManager.getAllOrders();
             if (content == null || content.trim().isEmpty()) {
-                System.out.println("\nAktif sipariş yok!");
+                System.out.println("\nNo active orders!");
                 return;
             }
 
             StringBuilder orders = new StringBuilder();
             orders.append("=== AKTİF SİPARİŞLER ===\n");
             
-            java.util.StringTokenizer lines = new java.util.StringTokenizer(content, "\n");
+            String[] lines = content.split("\n");
             boolean hasActive = false;
             
-            while (lines.hasMoreTokens()) {
-                String line = lines.nextToken().trim();
+            for (String line : lines) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
                 
-                java.util.StringTokenizer tokens = new java.util.StringTokenizer(line, "|");
-                if (tokens.countTokens() >= 7) {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    int customerId = Integer.parseInt(tokens.nextToken());
-                    String customerName = tokens.nextToken();
-                    int tableNumber = Integer.parseInt(tokens.nextToken());
-                    String items = tokens.nextToken();
-                    double totalAmount = Double.parseDouble(tokens.nextToken());
-                    String statusStr = tokens.nextToken();
+                String[] fields = line.split("\\|", -1);
+                if (fields.length >= 7) {
+                    int id = Integer.parseInt(fields[0]);
+                    int customerId = Integer.parseInt(fields[1]);
+                    String customerName = fields[2];
+                    int tableNumber = Integer.parseInt(fields[3]);
+                    String items = fields[4];
+                    double totalAmount = Double.parseDouble(fields[5]);
+                    String statusStr = fields[6];
                     
                     com.restoran.model.OrderStatus status;
                     try {
@@ -225,33 +225,33 @@ public class BusinessInterface {
                     
                     if (status != com.restoran.model.OrderStatus.SERVED && status != com.restoran.model.OrderStatus.CANCELLED) {
                         hasActive = true;
-                        orders.append("Sipariş ID: ").append(id)
-                              .append(" | Müşteri: ").append(customerName)
-                              .append(" | Masa: ").append(tableNumber)
-                              .append(" | Ürünler: ").append(items)
-                              .append(" | Tutar: ").append(totalAmount).append(" TL")
-                              .append(" | Durum: ").append(status.getDescription());
+                        orders.append("Order ID: ").append(id)
+                              .append(" | Customer: ").append(customerName)
+                              .append(" | Table: ").append(tableNumber)
+                              .append(" | Items: ").append(items)
+                              .append(" | Amount: ").append(totalAmount).append(" TL")
+                              .append(" | Status: ").append(status.getDescription());
                         
-                        // Tarih bilgisini oku
-                        if (tokens.hasMoreTokens()) {
-                            String dateStr = tokens.nextToken(); // orderDate
+                        // Read date information
+                        if (fields.length >= 8) {
+                            String dateStr = fields[7]; // orderDate
                             try {
                                 // Nanosaniye kısmını kaldır
                                 if (dateStr.contains(".")) {
                                     dateStr = dateStr.substring(0, dateStr.indexOf("."));
                                 }
                                 java.time.LocalDateTime date = java.time.LocalDateTime.parse(dateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                                orders.append(" | Tarih: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                                orders.append(" | Date: ").append(date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                             } catch (Exception e) {
-                                // Parse edilemezse tarih gösterme
+                                // Don't show date if parsing fails
                             }
                             
-                            // Garson bilgisini oku
-                            if (tokens.hasMoreTokens()) {
+                            // Read waiter information
+                            if (fields.length >= 10) {
                                 try {
-                                    int waiterId = Integer.parseInt(tokens.nextToken());
-                                    if (waiterId > 0 && tokens.hasMoreTokens()) {
-                                        orders.append(" | Garson: ").append(tokens.nextToken());
+                                    int waiterId = Integer.parseInt(fields[8]);
+                                    if (waiterId > 0) {
+                                        orders.append(" | Waiter: ").append(fields[9]);
                                     }
                                 } catch (NumberFormatException e) {
                                     // Waiter ID parse edilemezse atla
@@ -264,7 +264,7 @@ public class BusinessInterface {
             }
             
             if (!hasActive) {
-                System.out.println("\nAktif sipariş yok!");
+                System.out.println("\nNo active orders!");
             } else {
                 System.out.println("\n" + orders.toString());
             }
@@ -277,29 +277,29 @@ public class BusinessInterface {
         try {
             String content = com.restoran.data.DataManager.getAllOrders();
             if (content == null || content.trim().isEmpty()) {
-                System.out.println("\nGeçmiş sipariş yok!");
+                System.out.println("\nNo order history!");
                 return;
             }
 
             StringBuilder orders = new StringBuilder();
             orders.append("=== GEÇMİŞ SİPARİŞLER ===\n");
             
-            java.util.StringTokenizer lines = new java.util.StringTokenizer(content, "\n");
+            String[] lines = content.split("\n");
             boolean found = false;
             
-            while (lines.hasMoreTokens()) {
-                String line = lines.nextToken().trim();
+            for (String line : lines) {
+                line = line.trim();
                 if (line.isEmpty()) continue;
                 
-                java.util.StringTokenizer tokens = new java.util.StringTokenizer(line, "|");
-                if (tokens.countTokens() >= 7) {
-                    int id = Integer.parseInt(tokens.nextToken());
-                    int customerId = Integer.parseInt(tokens.nextToken());
-                    String customerName = tokens.nextToken();
-                    int tableNumber = Integer.parseInt(tokens.nextToken());
-                    String items = tokens.nextToken();
-                    double totalAmount = Double.parseDouble(tokens.nextToken());
-                    String statusStr = tokens.nextToken();
+                String[] fields = line.split("\\|", -1);
+                if (fields.length >= 7) {
+                    int id = Integer.parseInt(fields[0]);
+                    int customerId = Integer.parseInt(fields[1]);
+                    String customerName = fields[2];
+                    int tableNumber = Integer.parseInt(fields[3]);
+                    String items = fields[4];
+                    double totalAmount = Double.parseDouble(fields[5]);
+                    String statusStr = fields[6];
                     
                     com.restoran.model.OrderStatus status;
                     try {
@@ -312,16 +312,16 @@ public class BusinessInterface {
                     // Sadece SERVED veya CANCELLED olanları göster
                     if (status == com.restoran.model.OrderStatus.SERVED || status == com.restoran.model.OrderStatus.CANCELLED) {
                         found = true;
-                        orders.append("Sipariş ID: ").append(id)
-                              .append(" | Müşteri: ").append(customerName)
-                              .append(" | Masa: ").append(tableNumber)
-                              .append(" | Ürünler: ").append(items)
-                              .append(" | Tutar: ").append(totalAmount).append(" TL")
-                              .append(" | Durum: ").append(status.getDescription());
+                        orders.append("Order ID: ").append(id)
+                              .append(" | Customer: ").append(customerName)
+                              .append(" | Table: ").append(tableNumber)
+                              .append(" | Items: ").append(items)
+                              .append(" | Amount: ").append(totalAmount).append(" TL")
+                              .append(" | Status: ").append(status.getDescription());
                         
-                        // Tarih bilgisini oku
-                        if (tokens.hasMoreTokens()) {
-                            String dateStr = tokens.nextToken();
+                        // Read date information
+                        if (fields.length >= 8) {
+                            String dateStr = fields[7];
                             try {
                                 // Nanosaniye kısmını kaldır
                                 if (dateStr.contains(".")) {
@@ -339,7 +339,7 @@ public class BusinessInterface {
             }
             
             if (!found) {
-                System.out.println("\nGeçmiş sipariş yok!");
+                System.out.println("\nNo order history!");
             } else {
                 System.out.println("\n" + orders.toString());
             }
@@ -358,18 +358,18 @@ public class BusinessInterface {
 
     private void updateOrderStatus() {
         try {
-            System.out.println("\n=== SİPARİŞ DURUMU GÜNCELLEME ===");
+            System.out.println("\n=== UPDATE ORDER STATUS ===");
             showActiveOrders();
-            System.out.print("Durumu güncellenecek sipariş ID: ");
+            System.out.print("Order ID to update status: ");
             int orderId = Integer.parseInt(scanner.nextLine().trim());
             
-            System.out.println("\nSipariş Durumları:");
-            System.out.println("1. Beklemede");
-            System.out.println("2. Hazırlanıyor");
-            System.out.println("3. Hazır");
-            System.out.println("4. Servis Edildi");
-            System.out.println("5. İptal");
-            System.out.print("Yeni durum seçiniz (1-5): ");
+            System.out.println("\nOrder Statuses:");
+            System.out.println("1. Pending");
+            System.out.println("2. Preparing");
+            System.out.println("3. Ready");
+            System.out.println("4. Served");
+            System.out.println("5. Cancelled");
+            System.out.print("Select new status (1-5): ");
             String statusChoice = scanner.nextLine().trim();
             
             com.restoran.model.OrderStatus newStatus;
@@ -390,28 +390,28 @@ public class BusinessInterface {
                     newStatus = com.restoran.model.OrderStatus.CANCELLED;
                     break;
                 default:
-                    System.out.println("Geçersiz seçim!");
+                    System.out.println("Invalid choice!");
                     return;
             }
             
-            // Siparişin masa numarasını al
+            // Get order's table number
             int tableNumber = orderManager.getOrderTableNumber(orderId);
             
-            // Sipariş durumunu güncelle
+            // Update order status
             orderManager.updateOrderStatus(orderId, newStatus);
             
-            // Eğer sipariş SERVED veya CANCELLED ise masayı boşalt
+            // If order is SERVED or CANCELLED, clear the table
             if (newStatus == com.restoran.model.OrderStatus.SERVED || 
                 newStatus == com.restoran.model.OrderStatus.CANCELLED) {
                 if (tableNumber > 0) {
                     tableManager.updateTableStatus(tableNumber, false, false);
-                    System.out.println("Masa " + tableNumber + " boşaltıldı!");
+                    System.out.println("Table " + tableNumber + " cleared!");
                 }
             }
             
-            System.out.println("Sipariş durumu güncellendi: " + newStatus.getDescription());
+            System.out.println("Order status updated: " + newStatus.getDescription());
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -429,19 +429,19 @@ public class BusinessInterface {
         try {
             System.out.println("\n=== GARSON ATAMA ===");
             showActiveOrders();
-            System.out.print("Sipariş ID: ");
+            System.out.print("Order ID: ");
             int orderId = Integer.parseInt(scanner.nextLine().trim());
             
             System.out.println(waiterManager.getAllWaiters());
-            System.out.print("Garson ID: ");
+            System.out.print("Waiter ID: ");
             int waiterId = Integer.parseInt(scanner.nextLine().trim());
             
-            // Garson ID kontrolü
+            // Waiter ID check
             String waiterName = waiterManager.getWaiterInfo(waiterId);
             orderManager.assignWaiter(orderId, waiterId, waiterName);
-            System.out.println("Garson atandı!");
+            System.out.println("Waiter assigned!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (com.restoran.exception.NotFoundException e) {
             System.out.println("Hata: " + e.getMessage());
         } catch (Exception e) {
@@ -460,7 +460,7 @@ public class BusinessInterface {
             String phone = scanner.nextLine().trim();
             
             waiterManager.addWaiter(name, surname, phone);
-            System.out.println("Garson eklendi!");
+            System.out.println("Waiter added!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -468,15 +468,15 @@ public class BusinessInterface {
 
     private void cancelReservation() {
         try {
-            System.out.println("\n=== REZERVASYON İPTAL ===");
+            System.out.println("\n=== CANCEL RESERVATION ===");
             System.out.println(reservationManager.getAllReservations());
-            System.out.print("İptal edilecek rezervasyon ID: ");
+            System.out.print("Reservation ID to cancel: ");
             int reservationId = Integer.parseInt(scanner.nextLine().trim());
             
             reservationManager.cancelReservation(reservationId, -1); // -1 = işletme, kontrol yapma
-            System.out.println("Rezervasyon iptal edildi!");
+            System.out.println("Reservation cancelled!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -484,15 +484,15 @@ public class BusinessInterface {
 
     private void removeWaiter() {
         try {
-            System.out.println("\n=== GARSON ÇIKARMA ===");
+            System.out.println("\n=== REMOVE WAITER ===");
             System.out.println(waiterManager.getAllWaiters());
-            System.out.print("Çıkarılacak garson ID: ");
+            System.out.print("Waiter ID to remove: ");
             int waiterId = Integer.parseInt(scanner.nextLine().trim());
             
             waiterManager.removeWaiter(waiterId);
-            System.out.println("Garson çıkarıldı!");
+            System.out.println("Waiter removed!");
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir ID giriniz!");
+            System.out.println("Please enter a valid ID!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
@@ -504,12 +504,12 @@ public class BusinessInterface {
             System.out.print("Kapasite: ");
             int capacity = Integer.parseInt(scanner.nextLine().trim());
             
-            // Otomatik masa numarası atama
+            // Automatic table number assignment
             int nextTableNumber = tableManager.getNextTableNumber();
             tableManager.addTable(nextTableNumber, capacity);
-            System.out.println("Masa eklendi! Masa numarası: " + nextTableNumber);
+            System.out.println("Table added! Table number: " + nextTableNumber);
         } catch (NumberFormatException e) {
-            System.out.println("Geçerli bir numara giriniz!");
+            System.out.println("Please enter a valid number!");
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
         }
